@@ -1,3 +1,4 @@
+enable debug  
 
 # todo
 - desktop 的 breakpoint
