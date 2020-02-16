@@ -15,12 +15,18 @@ const DEFAULT_DESKTOP_VIEWPOINT_RATIO = [
 
 const deviceNames = deviceDescriptors.map(device => device.name);
 
+function getList(arg, separator = '\n') {
+  const input = core.getInput(arg)
+  if (!input) return []
+  return input.split(separator).map(value => value.trim())
+}
+
 async function run() {
   try { 
 
     const url = core.getInput("url") || "";
     const isAllDevices = core.getInput("allDevices") || false;
-    let includedDevices = core.getInput("devices") || [];
+    let includedDevices = getList("devices") || [];
     const noDesktop = !!core.getInput("noDesktop");
 
     core.startGroup('Action config')

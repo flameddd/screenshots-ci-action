@@ -14,12 +14,12 @@ jobs:
     - uses: actions/checkout@v1
       with:
         url: https://github.com
-        devices:
-          - "iPhone 6"
-          - "iPhone 6 landscape"
-          - "Nexus 7"
-          - "Pad Pro"
-          - "Galaxy S III landscape"
-          - "iPad Pro landscape"
+        devices: |
+          "iPhone 6"
+          "iPhone 6 landscape"
+          "Nexus 7"
+          "Pad Pro"
+          "Galaxy S III landscape"
+          "iPad Pro landscape"
     - run: npm ci
     - run: npm test
