@@ -2,7 +2,7 @@ name: "screenshots-ci-action"
 description: "Screenshot a website with different viewpoints"
 author: "JackyHu <flameddd@hotmail.com>"
 branding:
-  icon: 'camera'
+  icon: 'monitor'
   color: 'blue'
 runs:
   using: "node12"
