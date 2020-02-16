@@ -15,11 +15,11 @@ jobs:
       with:
         url: https://github.com
         devices:
-          - iPhone 6
-          - iPhone 6 landscape
-          - Nexus 7
-          - Pad Pro
-          - Galaxy S III landscape
-          - iPad Pro landscape
+          - "iPhone 6"
+          - "iPhone 6 landscape"
+          - "Nexus 7"
+          - "Pad Pro"
+          - "Galaxy S III landscape"
+          - "iPad Pro landscape"
     - run: npm ci
     - run: npm test
