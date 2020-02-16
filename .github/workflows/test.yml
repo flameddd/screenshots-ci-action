@@ -12,8 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - run: npm ci
-    - run: npm test
       with:
         url: https://github.com
         devices:
@@ -23,3 +21,5 @@ jobs:
           - Pad Pro
           - Galaxy S III landscape
           - iPad Pro landscape
+    - run: npm ci
+    - run: npm test
