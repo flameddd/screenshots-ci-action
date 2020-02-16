@@ -21,5 +21,5 @@ inputs:
     default: false
   devices:
     required: false
-    description: "Screenshot specific mobile devices viewpoint. e.x.: 'iPhone 6', 'Galaxy S III landscape', 'iPad Pro landscape'"
+    description: "Screenshot specific mobile devices viewpoint. e.x.: 'iPhone 6' 'Galaxy S III landscape' 'iPad Pro landscape'"
     default: []
