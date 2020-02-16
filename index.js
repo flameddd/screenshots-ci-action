@@ -39,12 +39,12 @@ async function run() {
         "Following devices name are invalid:",
         ...inValidedDevices
       ].join('\n'))
-    };
+    }
     core.endGroup() // Action config
     
     if (!url) {
       throw new Error(`"url" is invalid.`)
-    };
+    }
 
     if (!Array.isArray(includedDevices)) {
       console.error(`Input "devices" is wrony type. It must be Array[String]`)
@@ -54,7 +54,7 @@ async function run() {
 
     if (noDesktop && !includedDevices.length) {
       throw new Error(`No desktop and and devices are selected. You have chose at least one desktop or device.`)
-    };
+    }
 
     const browser = await puppeteer.launch();
     const desktopPage = await browser.newPage();
