@@ -1,6 +1,7 @@
 enable debug  
 
 # todo
+- test pass!!!!!!!!!!!!!!!!!
 - desktop 的 breakpoint
 - devices input
   - console.log not support device
