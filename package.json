@@ -1,6 +1,6 @@
 {
   "name": "screenshots-ci-action",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Github Actions to screenshots website",
   "main": "index.js",
   "scripts": {
