@@ -1,18 +1,105 @@
 const core = require('@actions/core');
-const wait = require('./wait');
+const io = require("@actions/io");
+const puppeteer = require('puppeteer');
+const deviceDescriptors = require('puppeteer/lib/DeviceDescriptors');
 
+const DEFAULT_DESKTOP_VIEWPOINT_RATIO = [
+  { width: 540, height: 405 },
+  { width: 600, height: 450 },
+  { width: 720, height: 540 },
+  { width: 960, height: 720 },
+  { width: 1140, height: 640 },
+  { width: 1280, height: 720 },
+  { width: 1920, height: 1080 },
+];
 
-// most @actions toolkit packages have async methods
+const deviceNames = deviceDescriptors.map(device => device.name);
+
 async function run() {
   try { 
-    const ms = core.getInput('milliseconds');
-    console.log(`Waiting ${ms} milliseconds ...`)
 
-    core.debug((new Date()).toTimeString())
-    wait(parseInt(ms));
-    core.debug((new Date()).toTimeString())
+    const url = core.getInput("url") || "";
+    const isAllDevices = core.getInput("allDevices") || false;
+    let includedDevices = core.getInput("devices") || [];
+    const noDesktop = !!core.getInput("noDesktop");
 
-    core.setOutput('time', new Date().toTimeString());
+    core.startGroup('Action config')
+    console.log('Input args:', {
+      url,
+      noDesktop: noDesktop,
+      allDevices: isAllDevices,
+      devices: includedDevices,
+    });
+
+    let inValidedDevices = includedDevices
+      .filter(name => !deviceNames.includes(name));
+    inValidedDevices = inValidedDevices.map(name => `- "${name}"`);
+    if (inValidedDevices.length) {
+      console.error([
+        "Following devices name are invalid:",
+        ...inValidedDevices
+      ].join('\n'))
+    };
+    core.endGroup() // Action config
+    
+    if (!url) {
+      throw new Error(`"url" is invalid.`)
+    };
+
+    if (!Array.isArray(includedDevices)) {
+      console.error(`Input "devices" is wrony type. It must be Array[String]`)
+    }
+
+    includedDevices = includedDevices.filter(name => deviceNames.includes(name));
+
+    if (noDesktop && !includedDevices.length) {
+      throw new Error(`No desktop and and devices are selected. You have chose at least one desktop or device.`)
+    };
+
+    const browser = await puppeteer.launch();
+    const desktopPage = await browser.newPage();
+
+    if (process.env.GITHUB_WORKSPACE) {
+      await io.mkdirP(`${process.env.GITHUB_WORKSPACE}/screenshots/`);
+    }
+
+    const path = process.env.GITHUB_WORKSPACE
+      ? `${process.env.GITHUB_WORKSPACE}/screenshots/`
+      : `screenshots/`
+
+    const postfix = process.env.GITHUB_SHA
+      ? `${process.env.GITHUB_SHA}`.substr(0, 7)
+      : `${new Date().getTime()}`
+
+    if (!noDesktop) {
+      core.startGroup("start process desktop")
+      console.log("Processing desktop screenshot")
+      await desktopPage.goto(url, { waitUntil: 'networkidle0' });
+      for (const { width, height } of DEFAULT_DESKTOP_VIEWPOINT_RATIO) {
+        await desktopPage.setViewport({ width, height });
+        await desktopPage.screenshot({
+          path: `${path}desktopPage${width}x${height}-${postfix}.png`
+        });
+      }
+      core.endGroup() // end start process desktop
+    }
+    
+    if (includedDevices.length) {
+      core.startGroup("start process mobile devices");
+      console.log("Processing mobile devices screenshot")
+      const mobilePages = await Promise.all([
+        ...Array.from({ length: includedDevices.length }).fill(browser.newPage()),
+      ]);
+      for (const [index, page] of mobilePages.entries()) {
+        await page.emulate(puppeteer.devices[`${includedDevices[index]}`])
+        await page.goto(url, { waitUntil: 'networkidle0' });
+        await page.screenshot({ path: `${path}${includedDevices[index].replace(/ /g, '_')}-${postfix}.png` });
+      }
+      core.endGroup() // end start process mobile devices
+    }
+
+    await browser.close();
+    console.log('close')
   } 
   catch (error) {
     core.setFailed(error.message);

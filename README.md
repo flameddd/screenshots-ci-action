@@ -1,4 +1,60 @@
 
+# todo
+- desktop 的 breakpoint
+- devices input
+  - console.log not support device
+  - after filter, is === 0, stop process
+- output setting
+  - local ?
+  - github workspace
+- 先準備 YML
+- 有了 YML 才好把完整 flow 寫出來？
+- 檢查 url,devices + desktop
+- 還要確實把 message 給 console log 出來
+  - 如果 url 無法訪問，那要 show 什麼訊息？
+
+readme 說明
+- yaml 範例
+  - 執行的 screenshot
+  - 執行結果的 screenshot
+- 變數說明
+  - networkidle0: consider navigation to be finished when there are no more than 0 network connections for at least 500 ms.
+  - desktop 就 default included （要說明）
+
+test case
+- fail url
+- only desktop
+- desktop false
+- devices []
+- 交互判斷
+
+```yaml
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    steps:
+    - name: screenshots ci actions
+      uses: "flameddd/screenshots-ci-action@v1"
+      with:
+        url: https://github.com
+        noDesktop: false
+        allDevices: true
+        devices:
+          - iPhone 6
+          - iPhone 6 landscape
+          - Nexus 7
+          - Pad Pro
+          - Galaxy S III landscape
+          - iPad Pro landscape
+
+```
+
+
+
+# ref
+- https://github.com/lannonbr/puppeteer-screenshot-action/blob/master/index.js
+
 <p align="center">
   <a href="https://github.com/actions/javascript-action/actions"><img alt="javscript-action status" src="https://github.com/actions/javascript-action/workflows/units-test/badge.svg"></a>
 </p>
