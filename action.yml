@@ -1,13 +1,25 @@
-name: 'Wait'
-description: 'Wait a designated number of milliseconds'
-inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
-    required: true
-    default: '1000'
-outputs:
-  time: # output will be available to future steps 
-    description: 'The message to output'
+name: "screenshots-ci-action"
+description: "Screenshot a website with different viewpoints"
+author: "JackyHu <flameddd@hotmail.com>"
+branding:
+  icon: 'camera'
+  color: 'blue'
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node12"
+  main: "lib/index.js"
+inputs:
+  url:
+    required: true
+    description: "The website URL you want to screenshot. e.x.: https://www.google.com/"
+  noDesktop:
+    required: false
+    description: "Not screenshot website's desktop viewpoint"
+    default: false
+  allDevices:
+    required: false
+    description: "Screenshot ALL supported mobile device viewpoint (https://github.com/puppeteer/puppeteer/blob/master/experimental/puppeteer-firefox/lib/DeviceDescriptors.js)"
+    default: false
+  devices:
+    required: false
+    description: "Screenshot specific mobile devices viewpoint. e.x.: ''iPhone 6', 'Galaxy S III landscape', 'iPad Pro landscape'"
+    default: []

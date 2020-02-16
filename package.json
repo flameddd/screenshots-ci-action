@@ -1,29 +1,24 @@
 {
-  "name": "javascript-action",
-  "version": "1.0.0",
-  "description": "JavaScript Action Template",
+  "name": "screenshots-ci-action",
+  "version": "0.0.1",
+  "description": "Github Actions to screenshots website",
   "main": "index.js",
   "scripts": {
     "lint": "eslint index.js",
     "package": "ncc build index.js -o dist",
-    "test": "eslint index.js && jest",
-    "test2": "jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/actions/javascript-action.git"
+    "test": "eslint index.js && jest"
   },
   "keywords": [
     "GitHub",
     "Actions",
-    "JavaScript"
+    "screenshot"
   ],
   "author": "GitHub",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/actions/javascript-action/issues"
+    "url": "https://github.com/flameddd/screenshots-ci-action"
   },
-  "homepage": "https://github.com/actions/javascript-action#readme",
+  "homepage": "https://github.com/flameddd/screenshots-ci-action",
   "dependencies": {
     "@actions/core": "^1.1.1",
     "@actions/io": "^1.0.2",
