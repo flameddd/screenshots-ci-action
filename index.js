@@ -30,10 +30,6 @@ async function run() {
       allDevices: isAllDevices,
       devices: includedDevices,
     });
-    
-    console.error("puppeteer.executablePath()")
-    console.error(puppeteer.executablePath())
-    console.log(puppeteer.executablePath())
     core.endGroup() // Action config
 
     if (!url) {
@@ -67,11 +63,7 @@ async function run() {
       return;
     }
 
-    
-
-    const browser = await puppeteer.launch({
-      executablePath: puppeteer.executablePath()
-    });
+    const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
     
     const desktopPage = await browser.newPage();
 
@@ -118,7 +110,6 @@ async function run() {
     console.log('close')
   } 
   catch (error) {
-    console.log(puppeteer.executablePath())
     console.error(error)
     core.setFailed(error.message);
   }
