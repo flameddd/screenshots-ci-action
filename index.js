@@ -26,6 +26,9 @@ async function run() {
 
     const url = core.getInput("url") || "";
     const isAllDevices = core.getInput("allDevices") || false;
+    console.log('-------debug-----')
+    console.log(core.getInput("devices"))
+    console.log('-----------------')
     let includedDevices = getList("devices");
     const noDesktop = !!core.getInput("noDesktop");
 
@@ -34,7 +37,7 @@ async function run() {
       url,
       noDesktop: noDesktop,
       allDevices: isAllDevices,
-      devices: includedDevices,
+      devices: core.getInput("devices"),
     });
 
     let inValidedDevices = includedDevices
