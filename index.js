@@ -21,7 +21,7 @@ async function run() {
     const url = core.getInput("url") || "";
     const isAllDevices = core.getInput("allDevices") || false;
     let includedDevices = core.getInput("devices");
-    const noDesktop = !!core.getInput("noDesktop");
+    const noDesktop = core.getInput("noDesktop") === true;
 
     core.startGroup('Action config')
     console.log('Input args:', {
@@ -82,7 +82,7 @@ async function run() {
       ? `${process.env.GITHUB_SHA}`.substr(0, 7)
       : `${new Date().getTime()}`
 
-    // if (!noDesktop) {
+    if (!noDesktop) {
       core.startGroup("start process desktop")
       console.log("Processing desktop screenshot")
       await desktopPage.goto(url, { waitUntil: 'networkidle0' });
@@ -93,12 +93,11 @@ async function run() {
         });
       }
       core.endGroup() // end start process desktop
-    // }
+    }
     
     if (includedDevices.length) {
       core.startGroup("start process mobile devices");
       console.log("Processing mobile devices screenshot")
-      console.log(includedDevices)
       const mobilePages = await Promise.all([
         ...Array.from({ length: includedDevices.length }).fill(browser.newPage()),
       ]);
