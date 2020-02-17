@@ -11,7 +11,10 @@ jobs:
   units:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
+    - run: npm ci
+    - run: npm test
+    - uses: ./
       with:
         url: https://github.com
         devices: |
@@ -21,8 +24,6 @@ jobs:
           "Pad Pro"
           "Galaxy S III landscape"
           "iPad Pro landscape"
-    - run: npm ci
-    - run: npm test
   # test action works running from the graph  
   test:
     runs-on: ubuntu-latest
