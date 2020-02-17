@@ -63,9 +63,10 @@ async function run() {
       return;
     }
 
-    const browser = await puppeteer.launch({
-      executablePath: puppeteer.executablePath(),
-    });
+    const launchOptions = !process.env.GITHUB_SHA
+      ? {}
+      : { executablePath: './node_modules/puppeteer/.local-chromium/mac-722234/chrome-mac/Chromium.app/Contents/MacOS/Chromium' }
+    const browser = await puppeteer.launch(launchOptions);
     
     const desktopPage = await browser.newPage();
 
