@@ -25,12 +25,8 @@ jobs:
       with:
         url: https://github.com
         devices: iPhone 6,iPhone 6 landscape,Nexus 7,Pad Pro,Galaxy S III landscape,iPad Pro landscape
-    - run: ls
     - run: ls -l ./screenshots
-    - uses: actions/download-artifact@v1
+    - uses: actions/upload-artifact@v1
       with:
-        name: download screenshots
+        name: Download-screenshots
         path: screenshots
-
-    - run: cat screenshots
-          
