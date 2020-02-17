@@ -4,9 +4,6 @@ author: "JackyHu <flameddd@hotmail.com>"
 branding:
   icon: 'monitor'
   color: 'blue'
-runs:
-  using: "node12"
-  main: "dist/index.js"
 inputs:
   url:
     required: true
@@ -23,3 +20,6 @@ inputs:
     required: false
     description: "Screenshot specific mobile devices viewpoint. e.x.: 'iPhone 6' 'Galaxy S III landscape' 'iPad Pro landscape'"
     default: []
+runs:
+  using: "node12"
+  main: "dist/index.js"
