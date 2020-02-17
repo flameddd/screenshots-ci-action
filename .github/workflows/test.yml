@@ -21,6 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: npm ci
+    - run: ls -R ./node_modules/puppeteer/.local-chromium
     - uses: ./
       with:
         url: https://github.com

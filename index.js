@@ -118,8 +118,6 @@ async function run() {
     console.log('close')
   } 
   catch (error) {
-    console.error("puppeteer.executablePath()")
-    console.error(puppeteer.executablePath())
     console.log(puppeteer.executablePath())
     console.error(error)
     core.setFailed(error.message);
