@@ -102,7 +102,6 @@ async function run() {
       const mobilePages = await Promise.all([
         ...Array.from({ length: includedDevices.length }).fill(browser.newPage()),
       ]);
-      console.log(mobilePages)
       for (const [index, page] of mobilePages.entries()) {
         console.log('mobile for loop in ')
         await page.emulate(puppeteer.devices[`${includedDevices[index]}`])
