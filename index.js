@@ -30,6 +30,12 @@ async function run() {
       allDevices: isAllDevices,
       devices: includedDevices,
     });
+    console.error(__dirname)
+    console.error("puppeteer.executablePath()")
+    console.error(puppeteer.executablePath())
+    console.log(__dirname)
+    console.log("puppeteer.executablePath()")
+    console.log(puppeteer.executablePath())
     core.endGroup() // Action config
 
     if (!url) {
@@ -63,9 +69,7 @@ async function run() {
       return;
     }
 
-    console.error(__dirname)
-    console.error("puppeteer.executablePath()")
-    console.error(puppeteer.executablePath())
+    
 
     const browser = await puppeteer.launch({
       executablePath: puppeteer.executablePath()
