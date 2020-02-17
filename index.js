@@ -30,11 +30,9 @@ async function run() {
       allDevices: isAllDevices,
       devices: includedDevices,
     });
-    console.error(__dirname)
+    
     console.error("puppeteer.executablePath()")
     console.error(puppeteer.executablePath())
-    console.log(__dirname)
-    console.log("puppeteer.executablePath()")
     console.log(puppeteer.executablePath())
     core.endGroup() // Action config
 
@@ -120,6 +118,9 @@ async function run() {
     console.log('close')
   } 
   catch (error) {
+    console.error("puppeteer.executablePath()")
+    console.error(puppeteer.executablePath())
+    console.log(puppeteer.executablePath())
     console.error(error)
     core.setFailed(error.message);
   }
