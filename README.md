@@ -42,7 +42,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: npm ci
-    - uses: ./
+    - uses: "flameddd/screenshots-ci-action@1"
       with:
         url: https://github.com
         devices: iPhone 6,iPhone 6 landscape,Nexus 7,Pad Pro,Galaxy S III landscape,iPad Pro landscape
