@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const io = require("@actions/io");
-const puppeteer = require('puppeteer');
-const deviceDescriptors = require('puppeteer/lib/DeviceDescriptors');
+const puppeteer = require("puppeteer");
+const deviceDescriptors = require("puppeteer/lib/DeviceDescriptors");
 
 const DEFAULT_DESKTOP_VIEWPOINT_RATIO = [
   { width: 540, height: 405 },
@@ -109,6 +109,7 @@ async function run() {
     console.log('close')
   } 
   catch (error) {
+    console.error(error)
     core.setFailed(error.message);
   }
 }
