@@ -3824,7 +3824,7 @@ async function run() {
 
     const url = core.getInput("url") || "";
     const isAllDevices = core.getInput("allDevices") || false;
-    let includedDevices = core.getInput("devices") || [];
+    let includedDevices = core.getInput("devices");
     const noDesktop = !!core.getInput("noDesktop");
 
     core.startGroup('Action config')
@@ -3834,6 +3834,18 @@ async function run() {
       allDevices: isAllDevices,
       devices: includedDevices,
     });
+    core.endGroup() // Action config
+
+    if (!url) {
+      console.log([
+        `Task done`,
+        `- "url" is empty.`
+      ].join('\n'))
+      return;
+    }
+
+    includedDevices = includedDevices || [];
+    includedDevices = includedDevices.split(',')
 
     let inValidedDevices = includedDevices
       .filter(name => !deviceNames.includes(name));
@@ -3844,20 +3856,15 @@ async function run() {
         ...inValidedDevices
       ].join('\n'))
     }
-    core.endGroup() // Action config
-    
-    if (!url) {
-      throw new Error(`"url" is invalid.`)
-    }
-
-    if (!Array.isArray(includedDevices)) {
-      console.error(`Input "devices" is wrony type. It must be Array[String]`)
-    }
 
     includedDevices = includedDevices.filter(name => deviceNames.includes(name));
 
     if (noDesktop && !includedDevices.length) {
-      throw new Error(`No desktop and and devices are selected. You have chose at least one desktop or device.`)
+      console.log([
+        `Task done`,
+        `- No desktop and and devices are selected. You have chose at least one desktop or device.`
+      ].join('\n'))
+      return;
     }
 
     const browser = await puppeteer.launch();

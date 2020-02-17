@@ -15,23 +15,12 @@ const DEFAULT_DESKTOP_VIEWPOINT_RATIO = [
 
 const deviceNames = deviceDescriptors.map(device => device.name);
 
-function getList(arg, separator = '\n') {
-  const input = core.getInput(arg)
-  if (!input) return []
-  return input.split(separator).map(value => value.trim())
-}
-
 async function run() {
   try { 
 
     const url = core.getInput("url") || "";
     const isAllDevices = core.getInput("allDevices") || false;
-
-    core.startGroup('Action debug')
-    console.log(core.getInput("devices"))
-    core.endGroup() // Action config
-    
-    let includedDevices = getList("devices");
+    let includedDevices = core.getInput("devices");
     const noDesktop = !!core.getInput("noDesktop");
 
     core.startGroup('Action config')
@@ -39,8 +28,20 @@ async function run() {
       url,
       noDesktop: noDesktop,
       allDevices: isAllDevices,
-      devices: core.getInput("devices"),
+      devices: includedDevices,
     });
+    core.endGroup() // Action config
+
+    if (!url) {
+      console.log([
+        `Task done`,
+        `- "url" is empty.`
+      ].join('\n'))
+      return;
+    }
+
+    includedDevices = includedDevices || [];
+    includedDevices = includedDevices.split(',')
 
     let inValidedDevices = includedDevices
       .filter(name => !deviceNames.includes(name));
@@ -50,19 +51,6 @@ async function run() {
         "Following devices name are invalid:",
         ...inValidedDevices
       ].join('\n'))
-    }
-    core.endGroup() // Action config
-    
-    if (!url) {
-      console.log([
-        `Task done`,
-        `- "url" is empty.`
-      ].join('\n'))
-      return;
-    }
-
-    if (!Array.isArray(includedDevices)) {
-      console.error(`Input "devices" is wrony type.`)
     }
 
     includedDevices = includedDevices.filter(name => deviceNames.includes(name));
