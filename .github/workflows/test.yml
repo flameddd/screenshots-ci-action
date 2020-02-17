@@ -27,4 +27,8 @@ jobs:
         devices: iPhone 6,iPhone 6 landscape,Nexus 7,Pad Pro,Galaxy S III landscape,iPad Pro landscape
     - run: ls
     - run: ls ./screenshots
+    - uses: actions/download-artifact@v1
+      with:
+        name: screenshots
+    - run: cat ./screenshots
           
