@@ -1,4 +1,4 @@
-# screenshots-ci-action
+# screenshots-ci-action (WIP)
 Generate a website screenshots in different viewpoint, devices.
 
 ## desktop ratio
