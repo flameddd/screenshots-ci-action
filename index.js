@@ -63,7 +63,14 @@ async function run() {
       return;
     }
 
-    const browser = await puppeteer.launch();
+    console.error(__dirname)
+    console.error("puppeteer.executablePath()")
+    console.error(puppeteer.executablePath())
+
+    const browser = await puppeteer.launch({
+      executablePath: puppeteer.executablePath()
+    });
+    
     const desktopPage = await browser.newPage();
 
     if (process.env.GITHUB_WORKSPACE) {
