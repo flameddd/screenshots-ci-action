@@ -63,7 +63,10 @@ async function run() {
       return;
     }
 
-    const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox'],
+      executablePath: puppeteer.executablePath(),
+    });
     
     const desktopPage = await browser.newPage();
 
@@ -110,6 +113,8 @@ async function run() {
     console.log('close')
   } 
   catch (error) {
+    console.error(puppeteer.executablePath)
+    console.error("=======================")
     console.error(error)
     core.setFailed(error.message);
   }
