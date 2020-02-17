@@ -26,9 +26,11 @@ async function run() {
 
     const url = core.getInput("url") || "";
     const isAllDevices = core.getInput("allDevices") || false;
-    console.log('-------debug-----')
+
+    core.startGroup('Action debug')
     console.log(core.getInput("devices"))
-    console.log('-----------------')
+    core.endGroup() // Action config
+    
     let includedDevices = getList("devices");
     const noDesktop = !!core.getInput("noDesktop");
 
