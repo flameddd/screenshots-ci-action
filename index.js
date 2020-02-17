@@ -26,7 +26,7 @@ async function run() {
 
     const url = core.getInput("url") || "";
     const isAllDevices = core.getInput("allDevices") || false;
-    let includedDevices = getList("devices") || [];
+    let includedDevices = getList("devices");
     const noDesktop = !!core.getInput("noDesktop");
 
     core.startGroup('Action config')
@@ -49,17 +49,25 @@ async function run() {
     core.endGroup() // Action config
     
     if (!url) {
-      throw new Error(`"url" is invalid.`)
+      console.log([
+        `Task done`,
+        `- "url" is empty.`
+      ].join('\n'))
+      return;
     }
 
     if (!Array.isArray(includedDevices)) {
-      console.error(`Input "devices" is wrony type. It must be Array[String]`)
+      console.error(`Input "devices" is wrony type.`)
     }
 
     includedDevices = includedDevices.filter(name => deviceNames.includes(name));
 
     if (noDesktop && !includedDevices.length) {
-      throw new Error(`No desktop and and devices are selected. You have chose at least one desktop or device.`)
+      console.log([
+        `Task done`,
+        `- No desktop and and devices are selected. You have chose at least one desktop or device.`
+      ].join('\n'))
+      return;
     }
 
     const browser = await puppeteer.launch();

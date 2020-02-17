@@ -23,3 +23,18 @@ jobs:
           "iPad Pro landscape"
     - run: npm ci
     - run: npm test
+  # test action works running from the graph  
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: ./
+      with:
+        url: https://github.com
+        devices: |
+          "iPhone 6"
+          "iPhone 6 landscape"
+          "Nexus 7"
+          "Pad Pro"
+          "Galaxy S III landscape"
+          "iPad Pro landscape"
