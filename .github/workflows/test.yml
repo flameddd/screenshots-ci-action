@@ -25,6 +25,7 @@ jobs:
       with:
         args: yarn
     - run: ls
+    - run: ls ./node_modules
     - uses: ./
       with:
         url: https://github.com
