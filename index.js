@@ -69,7 +69,6 @@ async function run() {
       ? {}
       : { 
           executablePath: "google-chrome-stable",
-          headless: false,
           args: ['--no-sandbox']
         }
     const browser = await puppeteer.launch(launchOptions);
