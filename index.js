@@ -64,7 +64,7 @@ async function run() {
 
     const launchOptions = !process.env.GITHUB_SHA
       ? {}
-      : { executablePath: './node_modules/puppeteer/.local-chromium/mac-722234/chrome-mac/Chromium.app/Contents/MacOS/Chromium' }
+      : { executablePath: 'google-chrome-unstable' }
     const browser = await puppeteer.launch(launchOptions);
     
     const desktopPage = await browser.newPage();
