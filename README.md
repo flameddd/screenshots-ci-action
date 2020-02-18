@@ -6,7 +6,7 @@ Generate a website screenshots in different viewpoint, devices.
 | Name(type)  | required(default) | Description |  
 | ------------- | ------------- | ------------- |    
 | `url`(string)  |  **required**(`""`) | The target website's URL to generate screenshots |
-| `devices`(string)  |  optional(`""`) | Specific mobile devices to generate screenshots. **Use comma to separate devices name.** The devices name list in below. |
+| `devices`(string)  |  optional(`""`) | Specific mobile devices to generate screenshots. **Use comma(`,`) to separate devices name.** The devices name list in below. |
 | `noDesktop`(boolean)  |  optional(`false`) | Set `true` if not require to get desktop viewpoint screenshots. |
 
 # Config Examples (desktop and few specific devices)
@@ -37,10 +37,9 @@ jobs:
         path: screenshots
 ```
 
-# Download screenshots
-![img](./download_screenshots_01.jpg)  
-![img](./download_screenshots_02.jpg)  
-
+# Download screenshots (more result example in below)
+![img](./asset/download_screenshots_01.jpg)  
+![img](./asset/download_screenshots_02.jpg)  
 
 ## desktop: genrate all these ratio
 - width: 540px, height: 405px
@@ -119,3 +118,25 @@ jobs:
 - 'Pixel 2 landscape'
 - 'Pixel 2 XL'
 - 'Pixel 2 XL landscape'
+
+## Result examples
+### desktop (600x450)
+![img](./asset/desktopPage600x450-6febe96.png)  
+
+### desktop (960x720)
+![img](./asset/desktopPage960x720-6febe96.png)  
+
+### desktop (1140x640)
+![img](./asset/desktopPage1140x640-6febe96.png)  
+
+### desktop (1920x1080)
+![img](./asset/desktopPage1920x1080-6febe96.png)  
+
+### mobile (iPhone_6_landscape)
+![img](./asset/iPhone_6_landscape-6febe96.png)  
+
+### mobile (iPhone_6)
+![img](./asset/iPhone_6-6febe96.png)  
+
+### mobile (Nexus_7)
+![img](./asset/Nexus_7-6febe96.png)  
