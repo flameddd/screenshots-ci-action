@@ -20,10 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install puppeteer
-      uses: ianwalter/puppeteer@v2.0.0
-      with:
-        args: yarn
+    - name: Test Code
+      uses: mujo-code/puppeteer-headful@master
+      env:
+        CI: 'true'
     - run: ls
     - run: ls ./node_modules
     - run: ls -R ./node_modules/puppeteer/
