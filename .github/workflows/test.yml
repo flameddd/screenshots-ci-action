@@ -25,6 +25,8 @@ jobs:
       env:
         CI: 'true'
     - run: ls
+    - run: ls ./dist
+    - run: printenv
     - uses: ./
       with:
         url: https://github.com
