@@ -61,10 +61,7 @@ async function run() {
       ].join('\n'))
       return;
     }
-    console.error('process.env.PUPPETEER_EXEC_PATH')
-    console.error(process.env.PUPPETEER_EXEC_PATH)
-    console.error("puppeteer.executablePath()")
-    console.error(puppeteer.executablePath())
+
     const launchOptions = !process.env.GITHUB_SHA
       ? {}
       : { 

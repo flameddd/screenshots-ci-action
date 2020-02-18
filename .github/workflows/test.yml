@@ -24,10 +24,6 @@ jobs:
       uses: mujo-code/puppeteer-headful@master
       env:
         CI: 'true'
-    - run: ls
-    - run: ls ./dist
-    - run: printenv
-    - run: ls /usr/bin/google-chrome
     - uses: ./
       with:
         url: https://github.com
