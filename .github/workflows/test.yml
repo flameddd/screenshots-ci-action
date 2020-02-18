@@ -24,7 +24,7 @@ jobs:
       uses: ianwalter/puppeteer@v2.0.0
       with:
         args: yarn
-    - run: npm ci
+    - run: ls
     - uses: ./
       with:
         url: https://github.com
