@@ -27,6 +27,7 @@ jobs:
     - run: ls
     - run: ls ./dist
     - run: printenv
+    - run: ls /usr/bin/google-chrome
     - uses: ./
       with:
         url: https://github.com
