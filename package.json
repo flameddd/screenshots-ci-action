@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint index.js",
     "package": "webpack",
-    "test": "eslint index.js && jest"
+    "test": "eslint index.js && jest",
+    "pre-release": "rimraf ./node_modules && npm install --production && node-prune && npm run package"
   },
   "keywords": [
     "GitHub",

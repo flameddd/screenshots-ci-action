@@ -20,7 +20,7 @@ async function run() {
 
     const url = core.getInput("url") || "";
     const isAllDevices = core.getInput("allDevices") || false;
-    let includedDevices = core.getInput("devices");
+    let includedDevices = core.getInput("devices") || "";
     const noDesktop = core.getInput("noDesktop") === true;
 
     core.startGroup('Action config')
@@ -40,7 +40,6 @@ async function run() {
       return;
     }
 
-    includedDevices = includedDevices || [];
     includedDevices = includedDevices.split(',')
 
     let inValidedDevices = includedDevices
