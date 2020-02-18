@@ -67,7 +67,11 @@ async function run() {
     console.error(puppeteer.executablePath())
     const launchOptions = !process.env.GITHUB_SHA
       ? {}
-      : { executablePath: puppeteer.executablePath() }
+      : { 
+          executablePath: "google-chrome-stable",
+          headless: false,
+          args: ['--no-sandbox']
+        }
     const browser = await puppeteer.launch(launchOptions);
     
     const desktopPage = await browser.newPage();
