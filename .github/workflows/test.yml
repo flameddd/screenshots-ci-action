@@ -26,6 +26,7 @@ jobs:
         args: yarn
     - run: ls
     - run: ls ./node_modules
+    - run: ls -R ./node_modules/puppeteer/
     - uses: ./
       with:
         url: https://github.com
