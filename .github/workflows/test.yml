@@ -24,7 +24,6 @@ jobs:
       uses: mujo-code/puppeteer-headful@master
       env:
         CI: 'true'
-    - name: test screenshots-ci-action
     - uses: ./
       with:
         url: https://github.com
