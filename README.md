@@ -10,6 +10,13 @@ Generate a website screenshots in different viewpoint, devices.
 | `noDesktop`(boolean)  |  optional(`false`) | Set `true` if not require to get desktop viewpoint screenshots. |
 
 # Config Examples (desktop and few specific devices)
+1. At the root of your repository, create a directory named `.github/workflows` to store your workflow files.  
+
+2. In `.github/workflows`, add a `.yml` or `.yaml` file for your workflow. For example, `.github/workflows/screenshots-workflow.yml`.
+
+for more info
+- https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow
+
 ```yaml
 name: screenshots ci actions
 on:
