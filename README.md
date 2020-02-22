@@ -9,7 +9,7 @@ Generate a website screenshots in different viewpoint, devices.
 | `devices`(string)  |  optional(`""`) | Specific mobile devices to generate screenshots. **Use comma(`,`) to separate devices name.** The devices name list in below. |
 | `noDesktop`(boolean)  |  optional(`false`) | Set `true` if not require to get desktop viewpoint screenshots. |
 
-# Config Examples (desktop and few specific devices)
+# Config Examples (screenshot desktop and few specific devices)
 1. At the root of your repository, create a directory named `.github/workflows` to store your workflow files.  
 
 2. In `.github/workflows`, add a `.yml` or `.yaml` file for your workflow. For example, `.github/workflows/screenshots-workflow.yml`.
@@ -38,6 +38,36 @@ jobs:
       with:
         url: https://github.com
         devices: iPhone 6,iPhone 6 landscape,Nexus 7,Pad Pro,Galaxy S III landscape,iPad Pro landscape
+    - uses: actions/upload-artifact@v1
+      with:
+        name: Download-screenshots
+        path: screenshots
+```
+
+# Config Examples 2(screenshot iphone 6, without desktop)
+
+```yaml
+name: screenshots ci actions
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: install puppeteer-headful
+      uses: mujo-code/puppeteer-headful@master
+      env:
+        CI: 'true'
+    - name: screenshots-ci-action
+      uses: flameddd/screenshots-ci-action@v1.0.2
+      with:
+        url: https://github.com
+        devices: iPhone 6,iPhone 6 landscape
+        noDesktop: true
     - uses: actions/upload-artifact@v1
       with:
         name: Download-screenshots
