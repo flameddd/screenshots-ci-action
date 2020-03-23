@@ -21,17 +21,17 @@
   },
   "homepage": "https://github.com/flameddd/screenshots-ci-action",
   "dependencies": {
-    "@actions/core": "^1.1.1",
+    "@actions/core": "^1.2.3",
     "@actions/io": "^1.0.2",
     "puppeteer": "^2.1.1"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.10.0",
+    "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
-    "jest": "^24.9.0",
-    "prettier": "^1.19.1",
-    "webpack": "^4.41.6",
+    "jest": "^25.1.0",
+    "prettier": "^2.0.1",
+    "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11"
   }
 }

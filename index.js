@@ -13,7 +13,7 @@ const DEFAULT_DESKTOP_VIEWPOINT_RATIO = [
   { width: 1920, height: 1080 },
 ];
 
-const deviceNames = deviceDescriptors.map(device => device.name);
+const deviceNames = deviceDescriptors.map((device) => device.name);
 
 async function run() {
   try {
@@ -39,16 +39,16 @@ async function run() {
     includedDevices = includedDevices.split(',');
 
     let inValidedDevices = includedDevices.filter(
-      name => !deviceNames.includes(name)
+      (name) => !deviceNames.includes(name)
     );
-    inValidedDevices = inValidedDevices.map(name => `- "${name}"`);
+    inValidedDevices = inValidedDevices.map((name) => `- "${name}"`);
     if (inValidedDevices.length) {
       console.error(
         ['Following devices name are invalid:', ...inValidedDevices].join('\n')
       );
     }
 
-    includedDevices = includedDevices.filter(name =>
+    includedDevices = includedDevices.filter((name) =>
       deviceNames.includes(name)
     );
 
