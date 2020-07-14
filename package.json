@@ -4,7 +4,7 @@
   "description": "Github Actions to screenshots website",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint index.js",
+    "lint": "eslint index.js --fix",
     "package": "webpack",
     "test": "eslint index.js && jest",
     "pre-release": "npm run package && rimraf ./node_modules && npm install --production && node-prune"

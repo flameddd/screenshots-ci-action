@@ -3,11 +3,13 @@ Generate a website screenshots in different viewpoint, devices.
 
 ## Parameters
 		
-| Name(type)  | required(default) | Description |  
-| ------------- | ------------- | ------------- |    
-| `url`(string)  |  **required**(`""`) | The target website's URL to generate screenshots |
-| `devices`(string)  |  optional(`""`) | Specific mobile devices to generate screenshots. **Use comma(`,`) to separate devices name.** The devices name list in below. |
-| `noDesktop`(boolean)  |  optional(`false`) | Set `true` if not require to get desktop viewpoint screenshots. |
+| Name(type) | required(default) | Description |
+| ------------- | ------------- | ------------- |  
+| `url`(string) | **required**(`""`) | The target website's URL to generate screenshots |
+| `devices`(string) | optional(`""`) | Specific mobile devices to generate screenshots. **Use comma(`,`) to separate devices name.** The devices name list in below. |
+| `noDesktop`(boolean) | optional(`false`) | Set `true` if not require to get desktop viewpoint screenshots. |
+| `fullPage`(boolean) | optional(`false`) | Set `true`, takes a screenshot of the full scrollable page. (v1.1.0 added) |
+| `type`(string) | optional(`jpeg`) | Specify screenshot type, can be either `jpeg` or `png`. (v1.1.0 added) |
 
 # Config Examples (screenshot desktop and few specific devices)
 1. At the root of your repository, create a directory named `.github/workflows` to store your workflow files.  

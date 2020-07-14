@@ -12,13 +12,17 @@ inputs:
     required: false
     description: "Not screenshot website's desktop viewpoint"
     default: false
-  allDevices:
-    required: false
-    description: "Screenshot ALL supported mobile device viewpoint (https://github.com/puppeteer/puppeteer/blob/master/experimental/puppeteer-firefox/lib/DeviceDescriptors.js)"
-    default: false
   devices:
     required: false
     description: "Screenshot specific mobile devices viewpoint. e.x.: 'iPhone 6' 'Galaxy S III landscape' 'iPad Pro landscape'"
+  fullPage:
+    required: false
+    description: "When true, takes a screenshot of the full scrollable page. Defaults to false"
+    default: false
+  type:
+    required: false
+    description: "Specify screenshot type, can be either jpeg or png. Defaults to 'jpeg'."
+    default: 'jpeg'
 runs:
   using: "node12"
   main: "dist/index.js"

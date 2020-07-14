@@ -13,21 +13,31 @@ const DEFAULT_DESKTOP_VIEWPOINT_RATIO = [
   { width: 1920, height: 1080 },
 ];
 
+const DEFAULT_TYPE = 'jpeg';
+
 const deviceNames = deviceDescriptors.map((device) => device.name);
 
 async function run() {
   try {
     const url = core.getInput('url') || '';
-    const isAllDevices = core.getInput('allDevices') || false;
     let includedDevices = core.getInput('devices') || '';
     const noDesktop = core.getInput('noDesktop') === 'true';
+    const fullPage = core.getInput('fullPage') === 'true';
+    let screenshotType = core.getInput('type') || DEFAULT_TYPE;
+
+    screenshotType = screenshotType.toLowerCase();
+
+    if (!['png', 'jpeg'].includes(screenshotType)) {
+      screenshotType = DEFAULT_TYPE;
+    }
 
     core.startGroup('Action config');
     console.log('Input args:', {
       url,
       noDesktop: noDesktop,
-      allDevices: isAllDevices,
       devices: includedDevices,
+      fullPage,
+      type: screenshotType,
     });
     core.endGroup(); // Action config
 
@@ -91,7 +101,9 @@ async function run() {
       for (const { width, height } of DEFAULT_DESKTOP_VIEWPOINT_RATIO) {
         await desktopPage.setViewport({ width, height });
         await desktopPage.screenshot({
-          path: `${path}desktopPage${width}x${height}-${postfix}.png`,
+          path: `${path}desktopPage${width}x${height}-${postfix}.${screenshotType}`,
+          fullPage,
+          type: screenshotType,
         });
       }
       core.endGroup(); // end start process desktop
@@ -113,7 +125,9 @@ async function run() {
           path: `${path}${includedDevices[index].replace(
             / /g,
             '_'
-          )}-${postfix}.png`,
+          )}-${postfix}.${screenshotType}`,
+          fullPage,
+          type: screenshotType,
         });
       }
       core.endGroup(); // end start process mobile devices
