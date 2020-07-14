@@ -40,10 +40,10 @@ jobs:
       with:
         url: https://github.com
         devices: iPhone 6,iPhone 6 landscape,Nexus 7,Pad Pro,Galaxy S III landscape,iPad Pro landscape
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v2
       with:
-        name: Download-screenshots
         path: screenshots
+        name: Download-screenshots
 ```
 
 # Config Examples 2(screenshot iphone 6, without desktop)
@@ -70,10 +70,53 @@ jobs:
         url: https://github.com
         devices: iPhone 6,iPhone 6 landscape
         noDesktop: true
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v2
       with:
-        name: Download-screenshots
         path: screenshots
+        name: Download-screenshots
+```
+
+# Config Examples 3(multi urls)
+- url 1: https://www.facebook.com/ (desktop)
+- url 2: https://m.facebook.com/   (mobile (iPhone 6))
+
+```yaml
+name: screenshots ci actions
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: install puppeteer-headful
+      uses: mujo-code/puppeteer-headful@master
+      env:
+        CI: 'true'
+    - name: screenshots-desktop-facebook
+      uses: flameddd/screenshots-ci-action@v1.1.0
+      with:
+        url: https://www.facebook.com/
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Download-desktop-screenshots
+        path: screenshots
+    - run: rm ./screenshots/*
+
+    - name: screenshots-mobile-facebook
+      uses: flameddd/screenshots-ci-action@v1.1.0
+      with:
+        url: https://m.facebook.com/
+        devices: iPhone 6,iPhone 6 landscape
+        noDesktop: true
+    - uses: actions/upload-artifact@v2
+      with:
+        path: screenshots
+        name: Download-mobile-screenshots
+    - run: rm ./screenshots/*
 ```
 
 # Download screenshots (more result example in below)
@@ -179,3 +222,8 @@ jobs:
 
 ### mobile (Nexus_7)
 ![img](./asset/Nexus_7-6febe96.png)
+
+### mobile (iPhone_6, fullPage)
+<p align="center">
+  <img width="auto" height="450" src="asset/iPhone_6-bf5fcab-fullPage.jpeg"
+</p>
