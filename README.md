@@ -2,9 +2,9 @@
 Generate a website screenshots in different viewpoint, devices.
 
 ## Parameters
-		
+
 | Name(type) | required(default) | Description |
-| ------------- | ------------- | ------------- |  
+| ------------- | ------------- | ------------- |
 | `url`(string) | **required**(`""`) | The target website's URL to generate screenshots |
 | `devices`(string) | optional(`""`) | Specific mobile devices to generate screenshots. **Use comma(`,`) to separate devices name.** The devices name list in below. |
 | `noDesktop`(boolean) | optional(`false`) | Set `true` if not require to get desktop viewpoint screenshots. |
@@ -12,7 +12,7 @@ Generate a website screenshots in different viewpoint, devices.
 | `type`(string) | optional(`jpeg`) | Specify screenshot type, can be either `jpeg` or `png`. (v1.1.0 added) |
 
 # Config Examples (screenshot desktop and few specific devices)
-1. At the root of your repository, create a directory named `.github/workflows` to store your workflow files.  
+1. At the root of your repository, create a directory named `.github/workflows` to store your workflow files.
 
 2. In `.github/workflows`, add a `.yml` or `.yaml` file for your workflow. For example, `.github/workflows/screenshots-workflow.yml`.
 
@@ -36,7 +36,7 @@ jobs:
       env:
         CI: 'true'
     - name: screenshots-ci-action
-      uses: flameddd/screenshots-ci-action@v1.0.4
+      uses: flameddd/screenshots-ci-action@v1.1.0
       with:
         url: https://github.com
         devices: iPhone 6,iPhone 6 landscape,Nexus 7,Pad Pro,Galaxy S III landscape,iPad Pro landscape
@@ -65,7 +65,7 @@ jobs:
       env:
         CI: 'true'
     - name: screenshots-ci-action
-      uses: flameddd/screenshots-ci-action@v1.0.4
+      uses: flameddd/screenshots-ci-action@v1.1.0
       with:
         url: https://github.com
         devices: iPhone 6,iPhone 6 landscape
@@ -77,8 +77,8 @@ jobs:
 ```
 
 # Download screenshots (more result example in below)
-![img](./asset/download_screenshots_01.jpg)  
-![img](./asset/download_screenshots_02.jpg)  
+![img](./asset/download_screenshots_01.jpg)
+![img](./asset/download_screenshots_02.jpg)
 
 ## desktop: genrate all these ratio
 - width: 540px, height: 405px
@@ -160,22 +160,22 @@ jobs:
 
 ## Result examples
 ### desktop (600x450)
-![img](./asset/desktopPage600x450-6febe96.png)  
+![img](./asset/desktopPage600x450-6febe96.png)
 
 ### desktop (960x720)
-![img](./asset/desktopPage960x720-6febe96.png)  
+![img](./asset/desktopPage960x720-6febe96.png)
 
 ### desktop (1140x640)
-![img](./asset/desktopPage1140x640-6febe96.png)  
+![img](./asset/desktopPage1140x640-6febe96.png)
 
 ### desktop (1920x1080)
-![img](./asset/desktopPage1920x1080-6febe96.png)  
+![img](./asset/desktopPage1920x1080-6febe96.png)
 
 ### mobile (iPhone_6_landscape)
-![img](./asset/iPhone_6_landscape-6febe96.png)  
+![img](./asset/iPhone_6_landscape-6febe96.png)
 
 ### mobile (iPhone_6)
-![img](./asset/iPhone_6-6febe96.png)  
+![img](./asset/iPhone_6-6febe96.png)
 
 ### mobile (Nexus_7)
-![img](./asset/Nexus_7-6febe96.png)  
+![img](./asset/Nexus_7-6febe96.png)
