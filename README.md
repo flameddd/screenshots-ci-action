@@ -1,5 +1,6 @@
 # screenshots-ci-action
 Generate a website screenshots in different viewpoint, devices.
+- **feel free to open issue to discuss your scenario**
 
 ## Parameters
 
@@ -118,6 +119,10 @@ jobs:
         name: Download-mobile-screenshots
     - run: rm ./screenshots/*
 ```
+
+# More Config Examples (Vercel, Netlify)
+- [Vercel Preview Deployment screenhots](/README.Vercel.md)
+- [Netlify Preview Deployment screenhots](/README.Netlify.md)
 
 # Download screenshots (more result example in below)
 ![img](./asset/download_screenshots_01.jpg)
