@@ -2,6 +2,10 @@ const core = require('@actions/core');
 const io = require('@actions/io');
 const puppeteer = require('puppeteer');
 const deviceDescriptors = require('puppeteer/lib/DeviceDescriptors');
+const fs = require('fs');
+const util = require('util');
+const readdir = util.promisify(fs.readdir);
+const telegram = require('./telegram.js');
 
 const DEFAULT_DESKTOP_VIEWPOINT_RATIO = [
   { width: 540, height: 405 },
@@ -14,8 +18,14 @@ const DEFAULT_DESKTOP_VIEWPOINT_RATIO = [
 ];
 
 const DEFAULT_TYPE = 'jpeg';
-
 const deviceNames = deviceDescriptors.map((device) => device.name);
+const PATH = process.env.GITHUB_WORKSPACE
+  ? `${process.env.GITHUB_WORKSPACE}/screenshots/`
+  : `screenshots/`;
+
+const POST_FIX = process.env.GITHUB_SHA
+  ? `${process.env.GITHUB_SHA}`.substr(0, 7)
+  : `${new Date().getTime()}`;
 
 async function run() {
   try {
@@ -86,14 +96,6 @@ async function run() {
       await io.mkdirP(`${process.env.GITHUB_WORKSPACE}/screenshots/`);
     }
 
-    const path = process.env.GITHUB_WORKSPACE
-      ? `${process.env.GITHUB_WORKSPACE}/screenshots/`
-      : `screenshots/`;
-
-    const postfix = process.env.GITHUB_SHA
-      ? `${process.env.GITHUB_SHA}`.substr(0, 7)
-      : `${new Date().getTime()}`;
-
     if (!noDesktop) {
       core.startGroup('start process desktop');
       console.log('Processing desktop screenshot');
@@ -101,7 +103,7 @@ async function run() {
       for (const { width, height } of DEFAULT_DESKTOP_VIEWPOINT_RATIO) {
         await desktopPage.setViewport({ width, height });
         await desktopPage.screenshot({
-          path: `${path}desktopPage${width}x${height}-${postfix}.${screenshotType}`,
+          path: `${PATH}desktopPage${width}x${height}-${POST_FIX}.${screenshotType}`,
           fullPage,
           type: screenshotType,
         });
@@ -122,10 +124,10 @@ async function run() {
         await page.emulate(puppeteer.devices[`${includedDevices[index]}`]);
         await page.goto(url, { waitUntil: 'networkidle0' });
         await page.screenshot({
-          path: `${path}${includedDevices[index].replace(
+          path: `${PATH}${includedDevices[index].replace(
             / /g,
             '_'
-          )}-${postfix}.${screenshotType}`,
+          )}-${POST_FIX}.${screenshotType}`,
           fullPage,
           type: screenshotType,
         });
@@ -134,10 +136,27 @@ async function run() {
     }
 
     await browser.close();
-    console.log('close');
+
+    await postProcesses();
   } catch (error) {
     console.error(error);
     core.setFailed(error.message);
+  }
+}
+
+async function postProcesses() {
+  const files = await readdir(PATH);
+  if (!files.length) {
+    return;
+  }
+
+  if (!!process.env.TELE_CHAT_ID && !!process.env.TELE_BOT_TOKEN) {
+    await telegram({
+      path: PATH,
+      files,
+      teleChatId: process.env.TELE_CHAT_ID,
+      teltBotToken: process.env.TELE_BOT_TOKEN,
+    });
   }
 }
 
