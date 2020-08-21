@@ -12,6 +12,13 @@ Generate a website screenshots in different viewpoint, devices.
 | `fullPage`(boolean) | optional(`false`) | Set `true`, takes a screenshot of the full scrollable page. (v1.1.0 added) |
 | `type`(string) | optional(`jpeg`) | Specify screenshot type, can be either `jpeg` or `png`. (v1.1.0 added) |
 
+## Envs
+
+| Name(type) | required(default) | Description |
+| ------------- | ------------- | ------------- |
+| `TELE_CHAT_ID`(string) | optional(`""`) | Integration with **Telegram**. `screenshots-ci-action` will send screenshots to telegram. see [README.Telegram](/README.Telegram.md) for setting detail. (v1.1.1 added) |
+| `TELE_BOT_TOKEN`(string) | optional(`""`) | Integration with **Telegram**. `screenshots-ci-action` will send screenshots to telegram. see [README.Telegram](/README.Telegram.md) for setting detail. (v1.1.1 added) |
+
 # Config Examples (screenshot desktop and few specific devices)
 1. At the root of your repository, create a directory named `.github/workflows` to store your workflow files.
 
@@ -37,7 +44,7 @@ jobs:
       env:
         CI: 'true'
     - name: screenshots-ci-action
-      uses: flameddd/screenshots-ci-action@v1.1.0
+      uses: flameddd/screenshots-ci-action@v1.1.1
       with:
         url: https://github.com
         devices: iPhone 6,iPhone 6 landscape,Nexus 7,Pad Pro,Galaxy S III landscape,iPad Pro landscape
@@ -66,7 +73,7 @@ jobs:
       env:
         CI: 'true'
     - name: screenshots-ci-action
-      uses: flameddd/screenshots-ci-action@v1.1.0
+      uses: flameddd/screenshots-ci-action@v1.1.1
       with:
         url: https://github.com
         devices: iPhone 6,iPhone 6 landscape
@@ -98,7 +105,7 @@ jobs:
       env:
         CI: 'true'
     - name: screenshots-desktop-facebook
-      uses: flameddd/screenshots-ci-action@v1.1.0
+      uses: flameddd/screenshots-ci-action@v1.1.1
       with:
         url: https://www.facebook.com/
     - uses: actions/upload-artifact@v2
@@ -108,7 +115,7 @@ jobs:
     - run: rm ./screenshots/*
 
     - name: screenshots-mobile-facebook
-      uses: flameddd/screenshots-ci-action@v1.1.0
+      uses: flameddd/screenshots-ci-action@v1.1.1
       with:
         url: https://m.facebook.com/
         devices: iPhone 6,iPhone 6 landscape
@@ -120,9 +127,10 @@ jobs:
     - run: rm ./screenshots/*
 ```
 
-# More Config Examples (Vercel, Netlify)
-- [Vercel Preview Deployment screenhots](/README.Vercel.md)
-- [Netlify Preview Deployment screenhots](/README.Netlify.md)
+# More Config Examples (**Vercel**, **Netlify**)
+- [**Vercel** Preview Deployment screenhots](/README.Vercel.md)
+- [**Netlify** Preview Deployment screenhots](/README.Netlify.md)
+- [Integration with **Telegram**](/README.Telegram.md)
 
 # Download screenshots (more result example in below)
 ![img](./asset/download_screenshots_01.jpg)
