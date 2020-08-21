@@ -136,6 +136,9 @@ jobs:
 ![img](./asset/download_screenshots_01.jpg)
 ![img](./asset/download_screenshots_02.jpg)
 
+# Telegram
+![img](./asset/telegram4.jpg)
+
 ## desktop: genrate all these ratio
 - width: 540px, height: 405px
 - width: 600px, height: 450px
