@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint index.js --fix",
-    "test": "eslint index.js && jest",
-    "prepare": "ncc build index.js -o dist -m",
+    "prepare": "npm run lint && ncc build index.js -o dist -m",
     "postinstall": "node-prune"
   },
   "keywords": [
