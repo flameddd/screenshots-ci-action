@@ -173,14 +173,16 @@ async function postProcesses() {
   const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
 
   for (const fileName of files) {
+    const data = await fs.readFile(`${PATH}${fileName}`);
+    console.log('====> data:', data, `${PATH}${fileName}`);
     const result = await octokit.rest.repos.uploadReleaseAsset({
       owner,
       repo,
       release_id: releaseId,
       name: fileName,
-      data: fs.readFileSync(`${PATH}${fileName}`),
+      data,
     });
-    console.log('有成功updalte 嗎？:', result, `${PATH}${fileName}`);
+    console.log('有成功updalte 嗎？:', result);
   }
 }
 
