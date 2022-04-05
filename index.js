@@ -164,6 +164,12 @@ async function postProcesses() {
     repo: { owner, repo },
   } = github.context;
   const releaseId = core.getInput('releaseId') || '';
+  console.log('===== 沒拿到 process.env.GITHUB_TOKEN ?', {
+    owner,
+    repo,
+    releaseId,
+    GITHUB_TOKEN: process.env.GITHUB_TOKEN,
+  });
   const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
 
   for (const fileName of files) {
