@@ -4,7 +4,7 @@
   "description": "Github Actions to screenshots website",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint index.js --fix",
+    "lint": "node ./node_modules/eslint/bin/eslint.js index.js --fix",
     "prepare": "npm run lint && ncc build index.js -o dist -m",
     "postinstall": "node-prune"
   },

@@ -145,7 +145,7 @@ async function run() {
 
 async function postProcesses() {
   const files = await fs.readdir(PATH);
-  console.log("files ==> ", files)
+  console.log('files ==> ', files);
   if (!files.length) {
     return;
   }
@@ -159,12 +159,12 @@ async function postProcesses() {
     });
   }
 
-  console.log('======== Test upload file ========')
+  console.log('======== Test upload file ========');
   const {
     repo: { owner, repo },
   } = github.context;
-  const releaseId = core.getInput('releaseId') || ''
-  const octokit = github.getOctokit(process.env.GITHUB_TOKEN)
+  const releaseId = core.getInput('releaseId') || '';
+  const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
 
   for (const fileName of files) {
     const result = await octokit.rest.repos.uploadReleaseAsset({
@@ -173,10 +173,9 @@ async function postProcesses() {
       release_id: releaseId,
       name: fileName,
       data: fs.readFileSync(`${PATH}${fileName}`),
-    });    
-    console.log("有成功updalte 嗎？:", result, `${PATH}${fileName}`)
+    });
+    console.log('有成功updalte 嗎？:', result, `${PATH}${fileName}`);
   }
-
 }
 
 run();
