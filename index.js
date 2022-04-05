@@ -1,10 +1,9 @@
 const core = require('@actions/core');
 const io = require('@actions/io');
+const github = require('@actions/github');
 const puppeteer = require('puppeteer');
 const deviceDescriptors = require('puppeteer/lib/DeviceDescriptors');
-const fs = require('fs');
-const util = require('util');
-const readdir = util.promisify(fs.readdir);
+const fs = require('fs').promises;
 const telegram = require('./telegram.js');
 
 const DEFAULT_DESKTOP_VIEWPOINT_RATIO = [
@@ -145,7 +144,8 @@ async function run() {
 }
 
 async function postProcesses() {
-  const files = await readdir(PATH);
+  const files = await fs.readdir(PATH);
+  console.log("files ==> ", files)
   if (!files.length) {
     return;
   }
@@ -158,6 +158,25 @@ async function postProcesses() {
       teltBotToken: process.env.TELE_BOT_TOKEN,
     });
   }
+
+  console.log('======== Test upload file ========')
+  const {
+    repo: { owner, repo },
+  } = github.context;
+  const releaseId = core.getInput('releaseId') || ''
+  const octokit = github.getOctokit(process.env.GITHUB_TOKEN)
+
+  for (const fileName of files) {
+    const result = await octokit.rest.repos.uploadReleaseAsset({
+      owner,
+      repo,
+      release_id: releaseId,
+      name: fileName,
+      data: fs.readFileSync(`${PATH}${fileName}`),
+    });    
+    console.log("有成功updalte 嗎？:", result, `${PATH}${fileName}`)
+  }
+
 }
 
 run();
