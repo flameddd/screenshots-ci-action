@@ -168,10 +168,11 @@ async function postProcesses() {
   const releaseId = core.getInput('releaseId') || '';
   const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
 
+  const uploadedImage = [];
   for (const fileName of files) {
     try {
+      // upload image file to release page
       const data = await fs.readFile(`${PATH}${fileName}`);
-      console.log('====> data:', data, `${PATH}${fileName}`);
       const result = await octokit.rest.repos.uploadReleaseAsset({
         owner,
         repo,
@@ -179,26 +180,40 @@ async function postProcesses() {
         name: fileName,
         data,
       });
-      console.log('有成功updalte 嗎？:', result.data);
 
-      console.log('有成功拿到 pull_request 資料嗎？', pull_request);
-      // const res2 = await octokit.rest.pulls.createReviewComment({
+      if (result.data.browser_download_url) {
+        uploadedImage.push([fileName, result.data.browser_download_url]);
+      }
+    } catch (error) {
+      console.error(`Failed to upload: ${fileName}`);
+      console.error(error);
+    }
+  }
+
+  if (uploadedImage.length) {
+    try {
+      // tail new line is for space between next image
+      const body = uploadedImage.reduce(
+        (body, [fileName, browser_download_url]) =>
+          body +
+          `## ${fileName}
+- ${browser_download_url}
+
+<img src=${browser_download_url} />
+
+`,
+        ''
+      );
+
       const res2 = await octokit.rest.issues.createComment({
         owner,
         repo,
         issue_number: pull_request.number,
-        body: `## ${fileName}
-- ${result.data.browser_download_url}  
-
-<img src=${result.data.browser_download_url} />
-       `,
+        body,
       });
 
       console.log('comment 結果？', res2);
-
-      // octokit.rest.pulls.createReviewComment
     } catch (error) {
-      console.error(`Failed to upload: ${fileName}`);
       console.error(error);
     }
   }
