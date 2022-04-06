@@ -143,9 +143,71 @@ async function run() {
   }
 }
 
+async function uploadAndCommnetImage(files) {
+  try {
+    const {
+      repo: { owner, repo },
+      payload: { pull_request },
+    } = github.context;
+
+    const releaseId = core.getInput('releaseId') || '';
+    const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+
+    const uploadedImage = [];
+    for (const fileName of files) {
+      try {
+        // upload image file to release page
+        const data = await fs.readFile(`${PATH}${fileName}`);
+        const result = await octokit.rest.repos.uploadReleaseAsset({
+          owner,
+          repo,
+          release_id: releaseId,
+          name: fileName,
+          data,
+        });
+        console.log('uploadReleaseAsset:', result);
+        if (result.data.browser_download_url) {
+          uploadedImage.push([fileName, result.data.browser_download_url]);
+        }
+      } catch (error) {
+        console.error(`Failed to upload: ${fileName}`);
+        console.error(error);
+      }
+    }
+
+    if (uploadedImage.length) {
+      try {
+        // tail new line is for space between next image
+        const body = uploadedImage.reduce(
+          (body, [fileName, browser_download_url]) =>
+            body +
+            `## ${fileName}
+- ${browser_download_url}
+
+<img src=${browser_download_url} />
+
+`,
+          ''
+        );
+
+        const result = await octokit.rest.issues.createComment({
+          owner,
+          repo,
+          issue_number: pull_request.number,
+          body,
+        });
+        console.log('createComment:', result);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 async function postProcesses() {
   const files = await fs.readdir(PATH);
-  console.log('files ==> ', files);
   if (!files.length) {
     return;
   }
@@ -159,63 +221,21 @@ async function postProcesses() {
     });
   }
 
-  console.log('======== Test upload file ========');
+  // upload and commnet file to PR
   const {
     repo: { owner, repo },
     payload: { pull_request },
   } = github.context;
-
   const releaseId = core.getInput('releaseId') || '';
-  const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
 
-  const uploadedImage = [];
-  for (const fileName of files) {
-    try {
-      // upload image file to release page
-      const data = await fs.readFile(`${PATH}${fileName}`);
-      const result = await octokit.rest.repos.uploadReleaseAsset({
-        owner,
-        repo,
-        release_id: releaseId,
-        name: fileName,
-        data,
-      });
-
-      if (result.data.browser_download_url) {
-        uploadedImage.push([fileName, result.data.browser_download_url]);
-      }
-    } catch (error) {
-      console.error(`Failed to upload: ${fileName}`);
-      console.error(error);
-    }
-  }
-
-  if (uploadedImage.length) {
-    try {
-      // tail new line is for space between next image
-      const body = uploadedImage.reduce(
-        (body, [fileName, browser_download_url]) =>
-          body +
-          `## ${fileName}
-- ${browser_download_url}
-
-<img src=${browser_download_url} />
-
-`,
-        ''
-      );
-
-      const res2 = await octokit.rest.issues.createComment({
-        owner,
-        repo,
-        issue_number: pull_request.number,
-        body,
-      });
-
-      console.log('comment 結果？', res2);
-    } catch (error) {
-      console.error(error);
-    }
+  if (
+    !!owner &&
+    !!repo &&
+    !!pull_request &&
+    !!releaseId &&
+    process.env.GITHUB_TOKEN
+  ) {
+    await uploadAndCommnetImage(files);
   }
 }
 
