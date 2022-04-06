@@ -4,9 +4,8 @@
   "description": "Github Actions to screenshots website",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint index.js --fix",
-    "test": "eslint index.js && jest",
-    "prepare": "ncc build index.js -o dist -m",
+    "lint": "node ./node_modules/eslint/bin/eslint.js index.js --fix",
+    "prepare": "npm run lint && ncc build index.js -o dist -m",
     "postinstall": "node-prune"
   },
   "keywords": [
@@ -22,6 +21,7 @@
   "homepage": "https://github.com/flameddd/screenshots-ci-action",
   "dependencies": {
     "@actions/core": "^1.2.4",
+    "@actions/github": "^5.0.1",
     "@actions/io": "^1.0.2",
     "node-telegram-bot-api": "^0.50.0",
     "puppeteer": "^2.1.1"

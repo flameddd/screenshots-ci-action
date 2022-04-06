@@ -11,6 +11,7 @@ Generate a website screenshots in different viewpoint, devices.
 | `noDesktop`(boolean) | optional(`false`) | Set `true` if not require to get desktop viewpoint screenshots. |
 | `fullPage`(boolean) | optional(`false`) | Set `true`, takes a screenshot of the full scrollable page. (v1.1.0 added) |
 | `type`(string) | optional(`jpeg`) | Specify screenshot type, can be either `jpeg` or `png`. (v1.1.0 added) |
+| `releaseId`(string) | optional(`"`) | Github Release Id, it's required to upload screenshots to PR comment. see [README.PR](/README.PR.md) for more detail and **pre-requirement** (v1.2.0) |
 
 ## Envs
 
@@ -18,6 +19,7 @@ Generate a website screenshots in different viewpoint, devices.
 | ------------- | ------------- | ------------- |
 | `TELE_CHAT_ID`(string) | optional(`""`) | Integration with **Telegram**. `screenshots-ci-action` will send screenshots to telegram. see [README.Telegram](/README.Telegram.md) for setting detail. (v1.1.1 added) |
 | `TELE_BOT_TOKEN`(string) | optional(`""`) | Integration with **Telegram**. `screenshots-ci-action` will send screenshots to telegram. see [README.Telegram](/README.Telegram.md) for setting detail. (v1.1.1 added) |
+| `GITHUB_TOKEN`(string) | optional(`""`) | Github Actions Tokens, it's required to upload screenshots to PR comment. see [README.PR](/README.PR.md) for more detail and **pre-requirement** (v1.2.0) |
 
 # Config Examples (screenshot desktop and few specific devices)
 1. At the root of your repository, create a directory named `.github/workflows` to store your workflow files.

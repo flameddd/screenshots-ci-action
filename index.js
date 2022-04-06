@@ -1,10 +1,9 @@
 const core = require('@actions/core');
 const io = require('@actions/io');
+const github = require('@actions/github');
 const puppeteer = require('puppeteer');
 const deviceDescriptors = require('puppeteer/lib/DeviceDescriptors');
-const fs = require('fs');
-const util = require('util');
-const readdir = util.promisify(fs.readdir);
+const fs = require('fs').promises;
 const telegram = require('./telegram.js');
 
 const DEFAULT_DESKTOP_VIEWPOINT_RATIO = [
@@ -144,8 +143,73 @@ async function run() {
   }
 }
 
+async function uploadAndCommnetImage(files) {
+  try {
+    const {
+      repo: { owner, repo },
+      payload: { pull_request },
+    } = github.context;
+
+    const releaseId = core.getInput('releaseId') || '';
+    const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+
+    const uploadedImage = [];
+    for (const fileName of files) {
+      try {
+        // upload image file to release page
+        const data = await fs.readFile(`${PATH}${fileName}`);
+        const result = await octokit.rest.repos.uploadReleaseAsset({
+          owner,
+          repo,
+          release_id: releaseId,
+          name: fileName,
+          data,
+        });
+        console.log('uploadReleaseAsset:', result);
+        if (result.data.browser_download_url) {
+          uploadedImage.push([fileName, result.data.browser_download_url]);
+        }
+      } catch (error) {
+        console.error(`Failed to upload: ${fileName}`);
+        console.error(error);
+      }
+    }
+
+    if (uploadedImage.length) {
+      try {
+        // tail new line is for space between next image
+        const body = uploadedImage
+          .sort((a, b) => a[1].localeCompare(b[1]))
+          .reduce(
+            (body, [fileName, browser_download_url]) =>
+              body +
+              `## ${fileName}
+- ${browser_download_url}
+
+<img src=${browser_download_url} />
+
+`,
+            ''
+          );
+
+        const result = await octokit.rest.issues.createComment({
+          owner,
+          repo,
+          issue_number: pull_request.number,
+          body,
+        });
+        console.log('createComment:', result);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 async function postProcesses() {
-  const files = await readdir(PATH);
+  const files = await fs.readdir(PATH);
   if (!files.length) {
     return;
   }
@@ -157,6 +221,23 @@ async function postProcesses() {
       teleChatId: process.env.TELE_CHAT_ID,
       teltBotToken: process.env.TELE_BOT_TOKEN,
     });
+  }
+
+  // upload and commnet file to PR
+  const {
+    repo: { owner, repo },
+    payload: { pull_request },
+  } = github.context;
+  const releaseId = core.getInput('releaseId') || '';
+
+  if (
+    !!owner &&
+    !!repo &&
+    !!pull_request &&
+    !!releaseId &&
+    process.env.GITHUB_TOKEN
+  ) {
+    await uploadAndCommnetImage(files);
   }
 }
 
