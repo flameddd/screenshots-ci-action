@@ -161,7 +161,7 @@ async function postProcesses() {
 
   console.log('======== Test upload file ========');
   const {
-    repo: { owner, repo },
+    repo: { owner, repo, pull_request },
   } = github.context;
   const releaseId = core.getInput('releaseId') || '';
   console.log('===== 沒拿到 process.env.GITHUB_TOKEN ?', {
@@ -184,6 +184,23 @@ async function postProcesses() {
         data,
       });
       console.log('有成功updalte 嗎？:', result.data);
+
+      console.log('有成功拿到 pull_request 資料嗎？', pull_request);
+      const res2 = await octokit.rest.pulls.createReviewComment({
+        owner,
+        repo,
+        pull_number: pull_request.number,
+        body: `
+         ## ${fileName}
+         - ${data.browser_download_url}  
+
+         <img src=${data.browser_download_url} />
+       `,
+      });
+
+      console.log('comment 結果？', res2);
+
+      // octokit.rest.pulls.createReviewComment
     } catch (error) {
       console.error(`Failed to upload: ${fileName}`);
       console.error(error);
