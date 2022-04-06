@@ -178,17 +178,19 @@ async function uploadAndCommnetImage(files) {
     if (uploadedImage.length) {
       try {
         // tail new line is for space between next image
-        const body = uploadedImage.reduce(
-          (body, [fileName, browser_download_url]) =>
-            body +
-            `## ${fileName}
+        const body = uploadedImage
+          .sort((a, b) => a[1].localeCompare(b[1]))
+          .reduce(
+            (body, [fileName, browser_download_url]) =>
+              body +
+              `## ${fileName}
 - ${browser_download_url}
 
 <img src=${browser_download_url} />
 
 `,
-          ''
-        );
+            ''
+          );
 
         const result = await octokit.rest.issues.createComment({
           owner,
