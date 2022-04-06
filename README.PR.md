@@ -74,7 +74,7 @@ jobs:
       env:
         CI: 'true'
     - name: screenshots-ci-action
-      uses: flameddd/screenshots-ci-action@latest
+      uses: flameddd/screenshots-ci-action@master
       with:
         url: https://www.google.com/
         devices: iPhone 6,iPhone 6 landscape
