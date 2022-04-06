@@ -187,11 +187,10 @@ async function postProcesses() {
         owner,
         repo,
         issue_number: pull_request.number,
-        body: `
-         ## ${fileName}
-         - ${data.browser_download_url}  
+        body: `## ${fileName}
+- ${result.data.browser_download_url}  
 
-         <img src=${data.browser_download_url} />
+<img src=${result.data.browser_download_url} />
        `,
       });
 
