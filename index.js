@@ -161,15 +161,11 @@ async function postProcesses() {
 
   console.log('======== Test upload file ========');
   const {
-    repo: { owner, repo, pull_request },
+    repo: { owner, repo },
+    payload: { pull_request },
   } = github.context;
+
   const releaseId = core.getInput('releaseId') || '';
-  console.log('===== 沒拿到 process.env.GITHUB_TOKEN ?', {
-    owner,
-    repo,
-    releaseId,
-    GITHUB_TOKEN: process.env.GITHUB_TOKEN,
-  });
   const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
 
   for (const fileName of files) {
