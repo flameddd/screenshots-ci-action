@@ -182,10 +182,11 @@ async function postProcesses() {
       console.log('有成功updalte 嗎？:', result.data);
 
       console.log('有成功拿到 pull_request 資料嗎？', pull_request);
-      const res2 = await octokit.rest.pulls.createReviewComment({
+      // const res2 = await octokit.rest.pulls.createReviewComment({
+      const res2 = await octokit.rest.issues.createComment({
         owner,
         repo,
-        pull_number: pull_request.number,
+        issue_number: pull_request.number,
         body: `
          ## ${fileName}
          - ${data.browser_download_url}  
