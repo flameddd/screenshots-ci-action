@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/flameddd/screenshots-ci-action",
   "dependencies": {
-    "@actions/core": "^1.2.4",
+    "@actions/core": "^1.8.2",
     "@actions/github": "^5.0.1",
     "@actions/io": "^1.1.2",
     "node-telegram-bot-api": "^0.57.0",
