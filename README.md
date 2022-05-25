@@ -141,7 +141,7 @@ jobs:
 # Telegram
 ![img](./asset/telegram4.jpg)
 
-## desktop: genrate all these ratio
+## Desktop: auto-create all of these ratio
 - width: 540px, height: 405px
 - width: 600px, height: 450px
 - width: 720px, height: 540px
@@ -150,74 +150,13 @@ jobs:
 - width: 1280px, height: 720px
 - width: 1920px, height: 1080px
 
-### full mobile devices options (https://github.com/puppeteer/puppeteer/blob/master/experimental/puppeteer-firefox/lib/DeviceDescriptors.js)
-- 'Blackberry PlayBook'
-- 'Blackberry PlayBook landscape'
-- 'BlackBerry Z30'
-- 'BlackBerry Z30 landscape'
-- 'Galaxy Note 3'
-- 'Galaxy Note 3 landscape'
-- 'Galaxy Note II'
-- 'Galaxy Note II landscape'
-- 'Galaxy S III'
-- 'Galaxy S III landscape'
-- 'Galaxy S5'
-- 'Galaxy S5 landscape'
-- 'iPad'
-- 'iPad landscape'
-- 'iPad Mini'
-- 'iPad Mini landscape'
-- 'iPad Pro'
-- 'iPad Pro landscape'
-- 'iPhone 4'
-- 'iPhone 4 landscape'
-- 'iPhone 5'
-- 'iPhone 5 landscape'
-- 'iPhone 6'
-- 'iPhone 6 landscape'
-- 'iPhone 6 Plus'
-- 'iPhone 6 Plus landscape'
-- 'iPhone 7'
-- 'iPhone 7 landscape'
-- 'iPhone 7 Plus'
-- 'iPhone 7 Plus landscape'
-- 'iPhone 8'
-- 'iPhone 8 landscape'
-- 'iPhone 8 Plus'
-- 'iPhone 8 Plus landscape'
-- 'iPhone SE'
-- 'iPhone SE landscape'
-- 'iPhone X'
-- 'iPhone X landscape'
-- 'Kindle Fire HDX'
-- 'Kindle Fire HDX landscape'
-- 'LG Optimus L70'
-- 'LG Optimus L70 landscape'
-- 'Microsoft Lumia 550'
-- 'Microsoft Lumia 950'
-- 'Microsoft Lumia 950 landscape'
-- 'Nexus 10'
-- 'Nexus 10 landscape'
-- 'Nexus 4'
-- 'Nexus 4 landscape'
-- 'Nexus 5'
-- 'Nexus 5 landscape'
-- 'Nexus 5X'
-- 'Nexus 5X landscape'
-- 'Nexus 6'
-- 'Nexus 6 landscape'
-- 'Nexus 6P'
-- 'Nexus 6P landscape'
-- 'Nexus 7'
-- 'Nexus 7 landscape'
-- 'Nokia Lumia 520'
-- 'Nokia Lumia 520 landscape'
-- 'Nokia N9'
-- 'Nokia N9 landscape'
-- 'Pixel 2'
-- 'Pixel 2 landscape'
-- 'Pixel 2 XL'
-- 'Pixel 2 XL landscape'
+### Supported mobile devices options
+- ref: https://github.com/puppeteer/puppeteer/blob/main/src/common/DeviceDescriptors.ts
+
+|||||
+| :--- | :--- | :--- | :--- |
+|'iPhone 4'<br />'iPhone 4 landscape'<br />'iPhone 5'<br />'iPhone 5 landscape'<br />'iPhone 6'<br />'iPhone 6 landscape'<br />'iPhone 6 Plus'<br />'iPhone 6 Plus landscape'<br />'iPhone 7'<br />'iPhone 7 landscape'<br />'iPhone 7 Plus'<br />'iPhone 7 Plus landscape'<br />'iPhone 8'<br />'iPhone 8 landscape'<br />'iPhone 8 Plus'<br />'iPhone 8 Plus landscape'<br />'iPhone SE'<br />'iPhone SE landscape'<br />'iPhone X'<br />'iPhone X landscape'<br />'iPhone XR'<br />'iPhone XR landscape'<br />'iPhone 11'<br />'iPhone 11 landscape'<br />'iPhone 11 Pro'<br />'iPhone 11 Pro landscape'<br />'iPhone 11 Pro Max'<br />'iPhone 11 Pro Max landscape'<br />'iPhone 12'<br />'iPhone 12 landscape'<br />'iPhone 12 Pro'<br />'iPhone 12 Pro landscape'<br />'iPhone 12 Pro Max'<br />'iPhone 12 Pro Max landscape'<br />'iPhone 12 Mini'<br />'iPhone 12 Mini landscape'<br />'iPhone 13'<br />'iPhone 13 landscape'<br />'iPhone 13 Pro'<br />'iPhone 13 Pro landscape'<br />'iPhone 13 Pro Max'<br />'iPhone 13 Pro Max landscape'<br />'iPhone 13 Mini'<br />'iPhone 13 Mini landscape'<br />|'iPad'<br />'iPad landscape'<br />'iPad (gen 6)'<br />'iPad (gen 6) landscape'<br />'iPad (gen 7)'<br />'iPad (gen 7) landscape'<br />'iPad Mini'<br />'iPad Mini landscape'<br />'iPad Pro'<br />'iPad Pro landscape'<br />'iPad Pro 11'<br />'iPad Pro 11 landscape'<br />|'Galaxy Note 3'<br />'Galaxy Note 3 landscape'<br />'Galaxy Note II'<br />'Galaxy Note II landscape'<br />'Galaxy S III'<br />'Galaxy S III landscape'<br />'Galaxy S5'<br />'Galaxy S5 landscape'<br />'Galaxy S8'<br />'Galaxy S8 landscape'<br />'Galaxy S9+'<br />'Galaxy S9+ landscape'<br />'Galaxy Tab S4'<br />'Galaxy Tab S4 landscape'<br />|'Pixel 2'<br />'Pixel 2 landscape'<br />'Pixel 2 XL'<br />'Pixel 2 XL landscape'<br />'Pixel 3'<br />'Pixel 3 landscape'<br />'Pixel 4'<br />'Pixel 4 landscape'<br />'Pixel 4a (5G)'<br />'Pixel 4a (5G) landscape'<br />'Pixel 5'<br />'Pixel 5 landscape'<br />|
+|'Nexus 4'<br />'Nexus 4 landscape'<br />'Nexus 5'<br />'Nexus 5 landscape'<br />'Nexus 5X'<br />'Nexus 5X landscape'<br />'Nexus 6'<br />'Nexus 6 landscape'<br />'Nexus 6P'<br />'Nexus 6P landscape'<br />'Nexus 7'<br />'Nexus 7 landscape'<br />'Nokia Lumia 520'<br />'Nokia Lumia 520 landscape'<br />'Nokia N9'<br />'Nokia N9 landscape'<br />'Nexus 10'<br />'Nexus 10 landscape'<br />|'Blackberry PlayBook'<br />'BlackBerry Z30'<br />'BlackBerry Z30 landscape'<br />|'JioPhone 2'<br />'JioPhone 2 landscape'<br />'Kindle Fire HDX'<br />'Kindle Fire HDX landscape'<br />'LG Optimus L70'<br />'LG Optimus L70 landscape'<br />'Microsoft Lumia 550'<br />'Microsoft Lumia 950'<br />'Microsoft Lumia 950 landscape'<br />'Moto G4'<br />'Moto G4 landscape'<br />||
 
 ## Result examples
 ### desktop (600x450)
