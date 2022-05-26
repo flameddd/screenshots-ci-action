@@ -176,7 +176,11 @@ async function uploadAndCommnetImage(files) {
 
     if (uploadedImage.length) {
       try {
-        // tail new line is for space between next image
+        /**
+         * 1. template strings' tail new line (after img tag) is for space
+         *    between next image
+         * 2. template strings dont have indent is for comment layout
+         */
         const body = uploadedImage
           .sort((a, b) => a[1].localeCompare(b[1]))
           .reduce(
