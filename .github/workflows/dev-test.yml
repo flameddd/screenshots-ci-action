@@ -1,0 +1,25 @@
+name: "dev-test"
+on:
+  pull_request:
+  push:
+    branches:
+      - dev
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: install puppeteer-headful
+      uses: mujo-code/puppeteer-headful@master
+      env:
+        CI: 'true'
+    - name: screenshots-ci-action
+      uses: flameddd/screenshots-ci-action@dev
+      with:
+        url: https://news.ycombinator.com/
+        devices: iPhone 6,iPhone 6 landscape,Nexus 7,Pad Pro,Galaxy S III landscape,iPad Pro landscape
+    - uses: actions/upload-artifact@v1
+      with:
+        name: Download-screenshots
+        path: screenshots
