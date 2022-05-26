@@ -6,7 +6,7 @@
 2. GroupId or ChannelId
     - how to get groupId: https://stackoverflow.com/a/38388851
     - how to get channelId: https://gist.github.com/mraaroncruz/e76d19f7d61d59419002db54030ebe35#gistcomment-3276103
-    - **private channel**: make sure the **bot** has right to access it.
+    - **private channel**: make sure the **bot** has **permission** to access it.
 
 ## 1. set repo `secrets`
 Set `TELE_CHAT_ID` and `TELE_BOT_TOKEN` as repo secrets for security issue.

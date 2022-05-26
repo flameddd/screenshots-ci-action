@@ -19,6 +19,9 @@ jobs:
       with:
         url: https://news.ycombinator.com/
         devices: iPhone 6,iPhone 6 landscape,Nexus 7,Pad Pro,Galaxy S III landscape,iPad Pro landscape
+      env:
+        TELE_CHAT_ID: ${{ secrets.TELE_CHAT_ID }}
+        TELE_BOT_TOKEN: ${{ secrets.TELE_BOT_TOKEN }}
     - uses: actions/upload-artifact@v1
       with:
         name: Download-screenshots
