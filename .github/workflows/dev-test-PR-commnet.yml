@@ -1,6 +1,8 @@
 name: "dev-test-PR-comment"
 on:
   pull_request:
+    branches:    
+      - dev
     types: [ opened, synchronize, reopened ]
 
 jobs:
