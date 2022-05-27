@@ -1,4 +1,4 @@
-name: "PR-comment-test"
+name: "Dev-to-Master-PR-commnet-test"
 on:
   pull_request:
     branches:    
@@ -15,7 +15,7 @@ jobs:
       env:
         CI: 'true'
     - name: screenshots-ci-action
-      uses: flameddd/screenshots-ci-action@${GITHUB_REF_NAME##*/}
+      uses: flameddd/screenshots-ci-action@dev
       with:
         url: https://www.google.com/
         devices: iPhone 6,iPhone 6 landscape
