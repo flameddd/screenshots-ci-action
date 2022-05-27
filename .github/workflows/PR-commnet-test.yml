@@ -15,7 +15,7 @@ jobs:
       env:
         CI: 'true'
     - name: screenshots-ci-action
-      uses: flameddd/screenshots-ci-action@${GITHUB_HEAD_REF}
+      uses: flameddd/screenshots-ci-action@${{ github.head_ref }}
       with:
         url: https://www.google.com/
         devices: iPhone 6,iPhone 6 landscape
