@@ -1,6 +1,5 @@
 name: "dev-test"
 on:
-  pull_request:
   push:
     branches:
       - dev

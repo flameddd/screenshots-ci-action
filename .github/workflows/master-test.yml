@@ -1,19 +1,10 @@
-name: "units-test"
+name: "master-test"
 on:
-  pull_request:
   push:
     branches:
       - master
 
 jobs:
-  # unit tests
-  units:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-    - run: npm ci
-
-  # test action works running from the graph  
   test:
     runs-on: ubuntu-latest
     steps:
@@ -22,10 +13,14 @@ jobs:
       uses: mujo-code/puppeteer-headful@master
       env:
         CI: 'true'
-    - uses: ./
+    - name: screenshots-ci-action
+      uses: flameddd/screenshots-ci-action@master
       with:
-        url: https://github.com
+        url: https://www.reddit.com/
         devices: iPhone 6,iPhone 6 landscape,Nexus 7,Pad Pro,Galaxy S III landscape,iPad Pro landscape
+      env:
+        TELE_CHAT_ID: ${{ secrets.TELE_CHAT_ID }}
+        TELE_BOT_TOKEN: ${{ secrets.TELE_BOT_TOKEN }}
     - uses: actions/upload-artifact@v1
       with:
         name: Download-screenshots
