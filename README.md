@@ -3,27 +3,32 @@ Generate a website screenshots in different viewpoint, devices.
 - **feel free to open issue to discuss your scenario**
 
 ## Parameters
-
 | Name(type) | required(default) | Description |
 | ------------- | ------------- | ------------- |
 | `url`(string) | **required**(`""`) | The target website's URL to generate screenshots |
-| `devices`(string) | optional(`""`) | Specific mobile devices to generate screenshots. **Use comma(`,`) to separate devices name.** The devices name list in below. |
+| `devices`(string) | optional(`""`) | Specific mobile devices to generate screenshots. **Use comma(`,`) to separate devices name.** Device name list in below. |
 | `noDesktop`(boolean) | optional(`false`) | Set `true` if not require to get desktop viewpoint screenshots. |
-| `fullPage`(boolean) | optional(`false`) | Set `true`, takes a screenshot of the full scrollable page. (v1.1.0 added) |
-| `type`(string) | optional(`jpeg`) | Specify screenshot type, can be either `jpeg` or `png`. (v1.1.0 added) |
-| `releaseId`(string) | optional(`"`) | Github Release Id, it's required to upload screenshots to PR comment. see [README.PR](/README.PR.md) for more detail and **pre-requirement** (v1.2.0) |
+| `fullPage`(boolean) | optional(`false`) | Set `true`, takes a screenshot of the full scrollable page. |
+| `type`(string) | optional(`jpeg`) | Specify screenshot type, can be either `jpeg` or `png`. |
+| `releaseId`(string) | optional(`"`) | Github Release Id, it's required to upload screenshots to PR comment. see [README.PR](/README.PR.md) for more detail |
 
 ## Envs
-
 | Name(type) | required(default) | Description |
 | ------------- | ------------- | ------------- |
 | `TELE_CHAT_ID`(string) | optional(`""`) | Integration with **Telegram**. `screenshots-ci-action` will send screenshots to telegram. see [README.Telegram](/README.Telegram.md) for setting detail. (v1.1.1 added) |
 | `TELE_BOT_TOKEN`(string) | optional(`""`) | Integration with **Telegram**. `screenshots-ci-action` will send screenshots to telegram. see [README.Telegram](/README.Telegram.md) for setting detail. (v1.1.1 added) |
-| `GITHUB_TOKEN`(string) | optional(`""`) | Github Actions Tokens, it's required to upload screenshots to PR comment. see [README.PR](/README.PR.md) for more detail and **pre-requirement** (v1.2.0) |
+| `GITHUB_TOKEN`(string) | optional(`""`) | Github Actions Tokens, it's required to upload screenshots to PR comment. see [README.PR](/README.PR.md) for more detail |
 
-# Config Examples (screenshot desktop and few specific devices)
+## Output screenshots
+There are **3** different way to output files
+1. Upload to **Actions Artifacts** 
+2. Send message to **Telegram** chat
+3. Comment in **PR**
+
+More full example in below
+
+# Example 1 (screenshot desktop and few specific devices)
 1. At the root of your repository, create a directory named `.github/workflows` to store your workflow files.
-
 2. In `.github/workflows`, add a `.yml` or `.yaml` file for your workflow. For example, `.github/workflows/screenshots-workflow.yml`.
 
 for more info
@@ -34,7 +39,7 @@ name: screenshots ci actions
 on:
   push:
     branches:
-    - master
+    - master # Trigger flow when something pushed to master branch
 
 jobs:
   screenshots:
@@ -42,21 +47,21 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: install puppeteer-headful
-      uses: mujo-code/puppeteer-headful@master
+      uses: mujo-code/puppeteer-headful@master # Required for headful puppeteer
       env:
         CI: 'true'
     - name: screenshots-ci-action
-      uses: flameddd/screenshots-ci-action@v1.1.1
+      uses: flameddd/screenshots-ci-action@master
       with:
         url: https://github.com
         devices: iPhone 6,iPhone 6 landscape,Nexus 7,Pad Pro,Galaxy S III landscape,iPad Pro landscape
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v2 # Uplaod screenshots to Actions Artifacts via actions/upload-artifact@v2
       with:
         path: screenshots
         name: Download-screenshots
 ```
 
-# Config Examples 2(screenshot iphone 6, without desktop)
+# Example 2(screenshot iphone 6, without desktop)
 
 ```yaml
 name: screenshots ci actions
@@ -71,11 +76,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: install puppeteer-headful
-      uses: mujo-code/puppeteer-headful@master
+      uses: mujo-code/puppeteer-headful@master # this is single line comment. test
       env:
         CI: 'true'
     - name: screenshots-ci-action
-      uses: flameddd/screenshots-ci-action@v1.1.1
+      uses: flameddd/screenshots-ci-action@master
       with:
         url: https://github.com
         devices: iPhone 6,iPhone 6 landscape
@@ -86,9 +91,9 @@ jobs:
         name: Download-screenshots
 ```
 
-# Config Examples 3(multi urls)
-- url 1: https://www.facebook.com/ (desktop)
-- url 2: https://m.facebook.com/   (mobile (iPhone 6))
+# Example 3 (multi URLs)
+- URL 1: https://www.facebook.com/ (desktop)
+- URL 2: https://m.facebook.com/   (mobile (iPhone 6))
 
 ```yaml
 name: screenshots ci actions
@@ -107,17 +112,17 @@ jobs:
       env:
         CI: 'true'
     - name: screenshots-desktop-facebook
-      uses: flameddd/screenshots-ci-action@v1.1.1
+      uses: flameddd/screenshots-ci-action@master
       with:
         url: https://www.facebook.com/
     - uses: actions/upload-artifact@v2
       with:
-        name: Download-desktop-screenshots
         path: screenshots
-    - run: rm ./screenshots/*
+        name: Download-desktop-screenshots # Put URL1 screenshots into Download-desktop-screenshots
+    - run: rm ./screenshots/* # Remove URL1 files
 
     - name: screenshots-mobile-facebook
-      uses: flameddd/screenshots-ci-action@v1.1.1
+      uses: flameddd/screenshots-ci-action@master
       with:
         url: https://m.facebook.com/
         devices: iPhone 6,iPhone 6 landscape
@@ -125,14 +130,14 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         path: screenshots
-        name: Download-mobile-screenshots
-    - run: rm ./screenshots/*
+        name: Download-mobile-screenshots # Put URL2 screenshots into Download-desktop-screenshots
 ```
 
-# More Config Examples (**Vercel**, **Netlify**)
+# More examples (**Vercel**, **Netlify**)
 - [**Vercel** Preview Deployment screenhots](/README.Vercel.md)
 - [**Netlify** Preview Deployment screenhots](/README.Netlify.md)
 - [Integration with **Telegram**](/README.Telegram.md)
+- [Manually dispatch workflow](/README.workflow-dispatch.md)
 
 # Download screenshots (more result example in below)
 ![img](./asset/download_screenshots_01.jpg)

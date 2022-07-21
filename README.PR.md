@@ -1,5 +1,4 @@
 # screenshots-ci-actions upload and post image to PR comment
-- `screenshots-ci-actions` v1.2.0 requirement
 
 ## 1. Prerequisites 
 This feature leverage `Gtihub Release`, we need a `release Id`, either create a new release or use existed release
@@ -42,7 +41,7 @@ Set `releaseId` parameters and `GITHUB_TOKEN` env
 
 ```yaml
 - name: screenshots-ci-actions upload and post image to PR comment
-  uses: flameddd/screenshots-ci-action@latest
+  uses: flameddd/screenshots-ci-action@master
   with:
     url: https://www.google.com/
     releaseId: 63601424

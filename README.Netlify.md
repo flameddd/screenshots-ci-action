@@ -69,7 +69,7 @@ jobs:
       env:
         CI: 'true'
     - name: screenshots-ci-action
-      uses: flameddd/screenshots-ci-action@v1.1.1
+      uses: flameddd/screenshots-ci-action@master
       with:
         url: ${{ steps.waitFor200.outputs.url }}
     - uses: actions/upload-artifact@v2
