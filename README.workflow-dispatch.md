@@ -32,3 +32,4 @@ jobs:
 ```
 
 ## Go to Actions page, dispatch workflow
+![dispatch01](./asset/dispatch-workflow01.jpg)  
