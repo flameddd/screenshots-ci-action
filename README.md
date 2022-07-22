@@ -21,17 +21,22 @@ Generate a website screenshots in different viewpoint, devices.
 
 ## Output screenshots
 There are **3** different way to output files
-1. Upload to **Actions Artifacts** 
+1. Upload to **Actions Artifacts**
 2. Send message to **Telegram** chat
 3. Comment in **PR**
 
 More full example in below
 
 # Example 1 (screenshot desktop and few specific devices)
+About this example:
+- screenshot desktop and few specific devices
+- Upload screenshots to **Actions Artifacts**
+
+How to create new workflow
 1. At the root of your repository, create a directory named `.github/workflows` to store your workflow files.
 2. In `.github/workflows`, add a `.yml` or `.yaml` file for your workflow. For example, `.github/workflows/screenshots-workflow.yml`.
 
-for more info
+More workflow info:
 - https://help.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow
 
 ```yaml
@@ -76,7 +81,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: install puppeteer-headful
-      uses: mujo-code/puppeteer-headful@master # this is single line comment. test
+      uses: mujo-code/puppeteer-headful@master
       env:
         CI: 'true'
     - name: screenshots-ci-action
