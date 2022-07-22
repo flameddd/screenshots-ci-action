@@ -20,7 +20,7 @@ jobs:
         env:
           CI: 'true'
       - name: screenshots-ci-action
-        uses: flameddd/screenshots-ci-action@v1.1.1
+        uses: flameddd/screenshots-ci-action@master
         with:
           url: ${{ github.event.deployment_status.target_url }}
       - uses: actions/upload-artifact@v2

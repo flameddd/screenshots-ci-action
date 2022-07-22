@@ -2,7 +2,6 @@ const core = require('@actions/core');
 const io = require('@actions/io');
 const github = require('@actions/github');
 const puppeteer = require('puppeteer');
-const deviceDescriptors = require('puppeteer/lib/DeviceDescriptors');
 const fs = require('fs').promises;
 const telegram = require('./telegram.js');
 
@@ -17,7 +16,7 @@ const DEFAULT_DESKTOP_VIEWPOINT_RATIO = [
 ];
 
 const DEFAULT_TYPE = 'jpeg';
-const deviceNames = deviceDescriptors.map((device) => device.name);
+const deviceNames = Object.keys(puppeteer.devices);
 const PATH = process.env.GITHUB_WORKSPACE
   ? `${process.env.GITHUB_WORKSPACE}/screenshots/`
   : `screenshots/`;
@@ -177,7 +176,11 @@ async function uploadAndCommnetImage(files) {
 
     if (uploadedImage.length) {
       try {
-        // tail new line is for space between next image
+        /**
+         * 1. template strings' tail new line (after img tag) is for space
+         *    between next image
+         * 2. template strings dont have indent is for comment layout
+         */
         const body = uploadedImage
           .sort((a, b) => a[1].localeCompare(b[1]))
           .reduce(
