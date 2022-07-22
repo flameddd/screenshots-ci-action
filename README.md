@@ -1,6 +1,5 @@
 # screenshots-ci-action
 Generate a website screenshots in different viewpoint, devices.
-- **feel free to open issue to discuss your scenario**
 
 ## Parameters
 | Name(type) | required(default) | Description |
@@ -27,7 +26,7 @@ There are **3** different way to output files
 
 More full example in below
 
-# Example 1 (screenshot desktop and few specific devices)
+# Example 1
 About this example:
 - screenshot desktop and few specific devices
 - Upload screenshots to **Actions Artifacts**
