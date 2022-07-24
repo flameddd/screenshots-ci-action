@@ -25,3 +25,24 @@ jobs:
       with:
         name: Download-screenshots
         path: screenshots
+  test-filename-without-commit-hash:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: install puppeteer-headful
+      uses: mujo-code/puppeteer-headful@master
+      env:
+        CI: 'true'
+    - name: screenshots-ci-action
+      uses: flameddd/screenshots-ci-action@dev
+      with:
+        url: https://www.google.com/
+        devices: iPhone 6
+        noCommitHashFileName: true # filename dont include commit hash
+      env:
+        TELE_CHAT_ID: ${{ secrets.TELE_CHAT_ID }}
+        TELE_BOT_TOKEN: ${{ secrets.TELE_BOT_TOKEN }}
+    - uses: actions/upload-artifact@v1
+      with:
+        name: Download-screenshots-without-commit-hash
+        path: screenshots

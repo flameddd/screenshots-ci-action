@@ -8,6 +8,7 @@ Generate a website screenshots in different viewpoint, devices.
 | `devices`(string) | optional(`""`) | Specific mobile devices to generate screenshots. **Use comma(`,`) to separate devices name.** Device name list in below. |
 | `noDesktop`(boolean) | optional(`false`) | Set `true` if not require to get desktop viewpoint screenshots. |
 | `fullPage`(boolean) | optional(`false`) | Set `true`, takes a screenshot of the full scrollable page. |
+| `noCommitHashFileName`(boolean) | optional(`false`) | Set `true`, the filename would not have commit hash. |
 | `type`(string) | optional(`jpeg`) | Specify screenshot type, can be either `jpeg` or `png`. |
 | `releaseId`(string) | optional(`"`) | Github Release Id, it's required to upload screenshots to PR comment. see [README.PR](/README.PR.md) for more detail |
 

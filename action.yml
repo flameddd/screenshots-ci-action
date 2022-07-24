@@ -23,6 +23,10 @@ inputs:
     required: false
     description: "Specify screenshot type, can be either jpeg or png. Defaults to 'jpeg'."
     default: 'jpeg'
+  noCommitHashFileName:
+    required: false
+    description: "Screenshot filename don't include commit hash."
+    default: false
 runs:
   using: 'node16'
   main: "dist/index.js"

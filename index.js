@@ -31,6 +31,8 @@ async function run() {
     let includedDevices = core.getInput('devices') || '';
     const noDesktop = core.getInput('noDesktop') === 'true';
     const fullPage = core.getInput('fullPage') === 'true';
+    const noCommitHashFileName =
+      core.getInput('noCommitHashFileName') === 'true';
     let screenshotType = core.getInput('type') || DEFAULT_TYPE;
 
     screenshotType = screenshotType.toLowerCase();
@@ -99,9 +101,14 @@ async function run() {
       console.log('Processing desktop screenshot');
       await desktopPage.goto(url, { waitUntil: 'networkidle0' });
       for (const { width, height } of DEFAULT_DESKTOP_VIEWPOINT_RATIO) {
+        // filename with/without post fix commit hash name
+        const desktopPath = noCommitHashFileName
+          ? `${PATH}desktopPage${width}x${height}.${screenshotType}`
+          : `${PATH}desktopPage${width}x${height}-${POST_FIX}.${screenshotType}`;
+
         await desktopPage.setViewport({ width, height });
         await desktopPage.screenshot({
-          path: `${PATH}desktopPage${width}x${height}-${POST_FIX}.${screenshotType}`,
+          path: desktopPath,
           fullPage,
           type: screenshotType,
         });
@@ -119,13 +126,17 @@ async function run() {
       ]);
       for (const [index, page] of mobilePages.entries()) {
         console.log('mobile for loop in ');
+
+        // filename with/without post fix commit hash name
+        let mobilePath = `${PATH}${includedDevices[index].replace(/ /g, '_')}`;
+        mobilePath = noCommitHashFileName
+          ? `${mobilePath}.${screenshotType}`
+          : `${mobilePath}-${POST_FIX}.${screenshotType}`;
+
         await page.emulate(puppeteer.devices[`${includedDevices[index]}`]);
         await page.goto(url, { waitUntil: 'networkidle0' });
         await page.screenshot({
-          path: `${PATH}${includedDevices[index].replace(
-            / /g,
-            '_'
-          )}-${POST_FIX}.${screenshotType}`,
+          path: mobilePath,
           fullPage,
           type: screenshotType,
         });
