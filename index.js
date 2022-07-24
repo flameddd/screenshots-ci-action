@@ -142,6 +142,7 @@ async function run() {
   }
 }
 
+// Comment files to PR
 async function uploadAndCommnetImage(files) {
   try {
     const {
@@ -152,6 +153,8 @@ async function uploadAndCommnetImage(files) {
     const releaseId = core.getInput('releaseId') || '';
     const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
 
+    const ISOTime = new Date().toISOString();
+
     const uploadedImage = [];
     for (const fileName of files) {
       try {
@@ -161,12 +164,15 @@ async function uploadAndCommnetImage(files) {
           owner,
           repo,
           release_id: releaseId,
-          name: fileName,
+          name: `${ISOTime}-${fileName}`,
           data,
         });
         console.log('uploadReleaseAsset:', result);
         if (result.data.browser_download_url) {
-          uploadedImage.push([fileName, result.data.browser_download_url]);
+          uploadedImage.push([
+            `${ISOTime}-${fileName}`,
+            result.data.browser_download_url,
+          ]);
         }
       } catch (error) {
         console.error(`Failed to upload: ${fileName}`);
@@ -217,6 +223,7 @@ async function postProcesses() {
     return;
   }
 
+  // Send files to telegram
   if (!!process.env.TELE_CHAT_ID && !!process.env.TELE_BOT_TOKEN) {
     await telegram({
       path: PATH,
@@ -226,7 +233,7 @@ async function postProcesses() {
     });
   }
 
-  // upload and commnet file to PR
+  // Commnet files to PR
   const {
     repo: { owner, repo },
     payload: { pull_request },
