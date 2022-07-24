@@ -25,6 +25,14 @@ const POST_FIX = process.env.GITHUB_SHA
   ? `${process.env.GITHUB_SHA}`.substr(0, 7)
   : `${new Date().getTime()}`;
 
+const DEFAULT_WAITUNTIL_OPTION = 'networkidle0';
+const WAITUNTIL_OPTIONS = [
+  'load',
+  'domcontentloaded',
+  'networkidle0',
+  'networkidle2',
+];
+
 async function run() {
   try {
     const url = core.getInput('url') || '';
@@ -33,12 +41,17 @@ async function run() {
     const fullPage = core.getInput('fullPage') === 'true';
     const noCommitHashFileName =
       core.getInput('noCommitHashFileName') === 'true';
+
     let screenshotType = core.getInput('type') || DEFAULT_TYPE;
-
     screenshotType = screenshotType.toLowerCase();
-
     if (!['png', 'jpeg'].includes(screenshotType)) {
       screenshotType = DEFAULT_TYPE;
+    }
+
+    // "networkidle0" as default puppeteer default waitUntil option
+    let waitUntil = core.getInput('waitUntil') || DEFAULT_WAITUNTIL_OPTION;
+    if (!WAITUNTIL_OPTIONS.includes(waitUntil)) {
+      waitUntil = DEFAULT_WAITUNTIL_OPTION;
     }
 
     core.startGroup('Action config');
@@ -99,7 +112,7 @@ async function run() {
     if (!noDesktop) {
       core.startGroup('start process desktop');
       console.log('Processing desktop screenshot');
-      await desktopPage.goto(url, { waitUntil: 'networkidle0' });
+      await desktopPage.goto(url, { waitUntil });
       for (const { width, height } of DEFAULT_DESKTOP_VIEWPOINT_RATIO) {
         // filename with/without post fix commit hash name
         const desktopPath = noCommitHashFileName

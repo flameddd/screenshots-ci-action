@@ -10,6 +10,7 @@ Generate a website screenshots in different viewpoint, devices.
 | `fullPage`(boolean) | optional(`false`) | Set `true`, takes a screenshot of the full scrollable page. |
 | `noCommitHashFileName`(boolean) | optional(`false`) | Set `true`, the filename would not have commit hash. |
 | `type`(string) | optional(`jpeg`) | Specify screenshot type, can be either `jpeg` or `png`. |
+| `waitUntil`(string) | optional(`networkidle0`) | When to consider navigation succeeded. <br> - `load`: consider navigation to be finished when the load event is fired.<br> - `domcontentloaded`: consider navigation to be finished when the DOMContentLoaded event is fired.<br> - `networkidle0`: consider navigation to be finished when there are no more than 0 network connections for at least `500` ms.<br> - `networkidle2`: consider navigation to be finished when there are no more than 2 network connections for at least `500` ms. <br><br> Consider set to `networkidle2` when target website has **long polling request**.|
 | `releaseId`(string) | optional(`"`) | Github Release Id, it's required to upload screenshots to PR comment. see [README.PR](/README.PR.md) for more detail |
 
 ## Envs
