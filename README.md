@@ -143,6 +143,7 @@ jobs:
 - [**Vercel** Preview Deployment screenhots](/README.Vercel.md)
 - [**Netlify** Preview Deployment screenhots](/README.Netlify.md)
 - [Integration with **Telegram**](/README.Telegram.md)
+- [Post screenshots into **PR comment**](/README.PR.md)
 - [Manually dispatch workflow](/README.workflow-dispatch.md)
 
 # Download screenshots (more result example in below)
