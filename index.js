@@ -162,7 +162,11 @@ async function run() {
     await postProcesses();
   } catch (error) {
     console.error(error);
-    core.setFailed(error.message);
+    if (error && error.message) {
+      core.setFailed(error.message);
+    } else {
+      core.setFailed(error || 'Unknown issue, throw error.');
+    }
   }
 }
 
