@@ -96,9 +96,8 @@ async function run() {
     }
 
     const launchOptions = !process.env.GITHUB_SHA
-      ? { headless: false }
+      ? {}
       : {
-          headless: false,
           executablePath: 'google-chrome-stable',
           args: ['--no-sandbox'],
         };
