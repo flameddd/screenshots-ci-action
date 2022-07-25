@@ -33,6 +33,8 @@ const WAITUNTIL_OPTIONS = [
   'networkidle2',
 ];
 
+let browser;
+
 async function run() {
   try {
     const url = core.getInput('url') || '';
@@ -101,7 +103,7 @@ async function run() {
           executablePath: 'google-chrome-stable',
           args: ['--no-sandbox'],
         };
-    const browser = await puppeteer.launch(launchOptions);
+    browser = await puppeteer.launch(launchOptions);
 
     const desktopPage = await browser.newPage();
 
@@ -162,11 +164,13 @@ async function run() {
     await postProcesses();
   } catch (error) {
     console.error(error);
-    if (error && error.message) {
-      core.setFailed(error.message);
-    } else {
-      core.setFailed(error || 'Unknown issue, throw error.');
+    core.setFailed(error.message);
+
+    if (browser && browser.close) {
+      await browser.close();
     }
+
+    process.exit(1);
   }
 }
 
