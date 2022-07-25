@@ -25,18 +25,35 @@ const POST_FIX = process.env.GITHUB_SHA
   ? `${process.env.GITHUB_SHA}`.substr(0, 7)
   : `${new Date().getTime()}`;
 
+const DEFAULT_WAITUNTIL_OPTION = 'networkidle0';
+const WAITUNTIL_OPTIONS = [
+  'load',
+  'domcontentloaded',
+  'networkidle0',
+  'networkidle2',
+];
+
+let browser;
+
 async function run() {
   try {
     const url = core.getInput('url') || '';
     let includedDevices = core.getInput('devices') || '';
     const noDesktop = core.getInput('noDesktop') === 'true';
     const fullPage = core.getInput('fullPage') === 'true';
+    const noCommitHashFileName =
+      core.getInput('noCommitHashFileName') === 'true';
+
     let screenshotType = core.getInput('type') || DEFAULT_TYPE;
-
     screenshotType = screenshotType.toLowerCase();
-
     if (!['png', 'jpeg'].includes(screenshotType)) {
       screenshotType = DEFAULT_TYPE;
+    }
+
+    // "networkidle0" as default puppeteer default waitUntil option
+    let waitUntil = core.getInput('waitUntil') || DEFAULT_WAITUNTIL_OPTION;
+    if (!WAITUNTIL_OPTIONS.includes(waitUntil)) {
+      waitUntil = DEFAULT_WAITUNTIL_OPTION;
     }
 
     core.startGroup('Action config');
@@ -86,7 +103,7 @@ async function run() {
           executablePath: 'google-chrome-stable',
           args: ['--no-sandbox'],
         };
-    const browser = await puppeteer.launch(launchOptions);
+    browser = await puppeteer.launch(launchOptions);
 
     const desktopPage = await browser.newPage();
 
@@ -97,11 +114,16 @@ async function run() {
     if (!noDesktop) {
       core.startGroup('start process desktop');
       console.log('Processing desktop screenshot');
-      await desktopPage.goto(url, { waitUntil: 'networkidle0' });
+      await desktopPage.goto(url, { waitUntil });
       for (const { width, height } of DEFAULT_DESKTOP_VIEWPOINT_RATIO) {
+        // filename with/without post fix commit hash name
+        const desktopPath = noCommitHashFileName
+          ? `${PATH}desktopPage${width}x${height}.${screenshotType}`
+          : `${PATH}desktopPage${width}x${height}-${POST_FIX}.${screenshotType}`;
+
         await desktopPage.setViewport({ width, height });
         await desktopPage.screenshot({
-          path: `${PATH}desktopPage${width}x${height}-${POST_FIX}.${screenshotType}`,
+          path: desktopPath,
           fullPage,
           type: screenshotType,
         });
@@ -119,13 +141,17 @@ async function run() {
       ]);
       for (const [index, page] of mobilePages.entries()) {
         console.log('mobile for loop in ');
+
+        // filename with/without post fix commit hash name
+        let mobilePath = `${PATH}${includedDevices[index].replace(/ /g, '_')}`;
+        mobilePath = noCommitHashFileName
+          ? `${mobilePath}.${screenshotType}`
+          : `${mobilePath}-${POST_FIX}.${screenshotType}`;
+
         await page.emulate(puppeteer.devices[`${includedDevices[index]}`]);
         await page.goto(url, { waitUntil: 'networkidle0' });
         await page.screenshot({
-          path: `${PATH}${includedDevices[index].replace(
-            / /g,
-            '_'
-          )}-${POST_FIX}.${screenshotType}`,
+          path: mobilePath,
           fullPage,
           type: screenshotType,
         });
@@ -139,9 +165,16 @@ async function run() {
   } catch (error) {
     console.error(error);
     core.setFailed(error.message);
+
+    if (browser && browser.close) {
+      await browser.close();
+    }
+
+    process.exit(1);
   }
 }
 
+// Comment files to PR
 async function uploadAndCommnetImage(files) {
   try {
     const {
@@ -152,6 +185,8 @@ async function uploadAndCommnetImage(files) {
     const releaseId = core.getInput('releaseId') || '';
     const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
 
+    const ISOTime = new Date().toISOString();
+
     const uploadedImage = [];
     for (const fileName of files) {
       try {
@@ -161,12 +196,15 @@ async function uploadAndCommnetImage(files) {
           owner,
           repo,
           release_id: releaseId,
-          name: fileName,
+          name: `${ISOTime}-${fileName}`,
           data,
         });
         console.log('uploadReleaseAsset:', result);
         if (result.data.browser_download_url) {
-          uploadedImage.push([fileName, result.data.browser_download_url]);
+          uploadedImage.push([
+            `${ISOTime}-${fileName}`,
+            result.data.browser_download_url,
+          ]);
         }
       } catch (error) {
         console.error(`Failed to upload: ${fileName}`);
@@ -217,6 +255,7 @@ async function postProcesses() {
     return;
   }
 
+  // Send files to telegram
   if (!!process.env.TELE_CHAT_ID && !!process.env.TELE_BOT_TOKEN) {
     await telegram({
       path: PATH,
@@ -226,7 +265,7 @@ async function postProcesses() {
     });
   }
 
-  // upload and commnet file to PR
+  // Commnet files to PR
   const {
     repo: { owner, repo },
     payload: { pull_request },

@@ -23,6 +23,14 @@ inputs:
     required: false
     description: "Specify screenshot type, can be either jpeg or png. Defaults to 'jpeg'."
     default: 'jpeg'
+  noCommitHashFileName:
+    required: false
+    description: "Screenshot filename don't include commit hash."
+    default: false
+  waitUntil:
+    required: false
+    description: "When to consider navigation succeeded, defaults to 'networkidle0'."
+    default: 'networkidle0'
 runs:
   using: 'node16'
   main: "dist/index.js"

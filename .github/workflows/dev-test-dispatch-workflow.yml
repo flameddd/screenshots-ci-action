@@ -21,6 +21,7 @@ jobs:
       with:
         url: ${{ github.event.inputs.url }}
         devices: iPhone 6,iPhone 6 landscape
+        waitUntil: networkidle2
     - uses: actions/upload-artifact@v2
       with:
         path: screenshots
