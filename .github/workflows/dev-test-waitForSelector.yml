@@ -5,7 +5,7 @@ on:
       - dev
 
 jobs:
-  test:
+  dev-test-waitForSelector:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -19,7 +19,7 @@ jobs:
         url: https://flameddd.github.io/screenshots-ci-action-test-waitForSelector/
         noDesktop: true
         devices: iPhone 6
-        waitUntil: '#waitForElement'
+        waitForSelector: '#waitForElement'
     - uses: actions/upload-artifact@v2
       with:
         path: screenshots
