@@ -131,7 +131,13 @@ async function run() {
       await desktopPage.goto(url, { waitUntil });
       // wait for page element when config has element selector
       if (waitForSelector) {
-        await desktopPage.waitForSelector(waitForSelector);
+        try {
+          await desktopPage.waitForSelector(waitForSelector);
+        } catch (error) {
+          // waitForSelector timeout will throw error
+          // Catch error to prevent flow break
+          console.error(error);
+        }
       }
 
       for (const { width, height } of DEFAULT_DESKTOP_VIEWPOINT_RATIO) {
@@ -173,7 +179,13 @@ async function run() {
         await page.goto(url, { waitUntil });
         // wait for page element when config has element selector
         if (waitForSelector) {
-          await page.waitForSelector(waitForSelector);
+          try {
+            await page.waitForSelector(waitForSelector);
+          } catch (error) {
+            // waitForSelector timeout will throw error
+            // Catch error to prevent flow break
+            console.error(error);
+          }
         }
 
         await page.screenshot({
