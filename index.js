@@ -33,10 +33,14 @@ const WAITUNTIL_OPTIONS = [
   'networkidle2',
 ];
 
+const DEFAULT_WAIT_FOR_SELECTOR = '';
+
 let browser;
 
 async function run() {
   try {
+    // 1. Get User config
+
     const url = core.getInput('url') || '';
     let includedDevices = core.getInput('devices') || '';
     const noDesktop = core.getInput('noDesktop') === 'true';
@@ -56,6 +60,9 @@ async function run() {
       waitUntil = DEFAULT_WAITUNTIL_OPTION;
     }
 
+    let waitForSelector =
+      core.getInput('waitForSelector') || DEFAULT_WAIT_FOR_SELECTOR;
+
     core.startGroup('Action config');
     console.log('Input args:', {
       url,
@@ -65,6 +72,8 @@ async function run() {
       type: screenshotType,
     });
     core.endGroup(); // Action config
+
+    // 2. Verify User config
 
     if (!url) {
       console.log([`Task done`, `- "url" is empty.`].join('\n'));
@@ -97,6 +106,8 @@ async function run() {
       return;
     }
 
+    // 3. Launch puppeteer
+
     const launchOptions = !process.env.GITHUB_SHA
       ? {}
       : {
@@ -111,10 +122,18 @@ async function run() {
       await io.mkdirP(`${process.env.GITHUB_WORKSPACE}/screenshots/`);
     }
 
+    // 4. Take desktop screenshots
+
     if (!noDesktop) {
       core.startGroup('start process desktop');
       console.log('Processing desktop screenshot');
+
       await desktopPage.goto(url, { waitUntil });
+      // wait for page element when config has element selector
+      if (waitForSelector) {
+        await desktopPage.waitForSelector(waitForSelector);
+      }
+
       for (const { width, height } of DEFAULT_DESKTOP_VIEWPOINT_RATIO) {
         // filename with/without post fix commit hash name
         const desktopPath = noCommitHashFileName
@@ -131,6 +150,8 @@ async function run() {
       core.endGroup(); // end start process desktop
     }
 
+    // 5. Take mobile device screenshots
+
     if (includedDevices.length) {
       core.startGroup('start process mobile devices');
       console.log('Processing mobile devices screenshot');
@@ -139,9 +160,8 @@ async function run() {
           browser.newPage()
         ),
       ]);
-      for (const [index, page] of mobilePages.entries()) {
-        console.log('mobile for loop in ');
 
+      for (const [index, page] of mobilePages.entries()) {
         // filename with/without post fix commit hash name
         let mobilePath = `${PATH}${includedDevices[index].replace(/ /g, '_')}`;
         mobilePath = noCommitHashFileName
@@ -149,7 +169,13 @@ async function run() {
           : `${mobilePath}-${POST_FIX}.${screenshotType}`;
 
         await page.emulate(puppeteer.devices[`${includedDevices[index]}`]);
-        await page.goto(url, { waitUntil: 'networkidle0' });
+
+        await page.goto(url, { waitUntil });
+        // wait for page element when config has element selector
+        if (waitForSelector) {
+          await page.waitForSelector(waitForSelector);
+        }
+
         await page.screenshot({
           path: mobilePath,
           fullPage,
@@ -161,6 +187,7 @@ async function run() {
 
     await browser.close();
 
+    // 6. Run screenshot post task
     await postProcesses();
   } catch (error) {
     console.error(error);
