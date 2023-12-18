@@ -163,7 +163,7 @@ jobs:
 - width: 1920px, height: 1080px
 
 ### Supported mobile devices options
-- ref: https://github.com/puppeteer/puppeteer/blob/main/src/common/DeviceDescriptors.ts
+- ref: https://github.com/puppeteer/puppeteer/blob/main/docs/api/puppeteer.knowndevices.md
 
 ||||
 | :--- | :--- | :--- |
