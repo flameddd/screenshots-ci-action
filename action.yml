@@ -38,11 +38,11 @@ inputs:
   waitForSelectorHidden:
     required: false
     description: 'Wait for the selected element to not be found in the DOM or to be hidden, i.e. have display: none or visibility: hidden CSS properties.'
-    default: false
+    default: 'false'
   waitForSelectorVisible:
     required: false
     description: 'Wait for the selected element to be present in DOM and to be visible, i.e. to not have display: none or visibility: hidden CSS properties.'
-    default: false
+    default: 'false'
   waitForSelectorTimeout:
     required: false
     description: 'Maximum time to wait in milliseconds. Pass 0 to disable timeout.'
