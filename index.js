@@ -64,11 +64,13 @@ async function run() {
     let waitForSelector =
       core.getInput('waitForSelector') || DEFAULT_WAIT_FOR_SELECTOR;
 
-    // get waitForSelectorOptions
-    const waitForSelectorHidden = core.getBooleanInput('booleanInputName');
-    const waitForSelectorVisible = core.getBooleanInput(
-      'waitForSelectorVisible'
-    );
+    // Get waitForSelectorOptions
+    // waitForSelectorHidden default false
+    const waitForSelectorHidden =
+      `${core.getInput('waitForSelectorHidden')}`.toLowerCase() === 'true';
+    // waitForSelectorVisible default false
+    const waitForSelectorVisible =
+      `${core.getInput('waitForSelectorVisible')}`.toLowerCase() === 'true';
     let waitForSelectorTimeout = core.getInput('waitForSelectorTimeout');
     if (Number.isNaN(waitForSelectorTimeout)) {
       waitForSelectorTimeout = DEFAULT_WAIT_FOR_SELECTOR_TIMEOUT;
