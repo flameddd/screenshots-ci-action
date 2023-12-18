@@ -32,6 +32,7 @@ jobs:
         noDesktop: true
         devices: iPhone 6
         waitForSelector: '.waitForElement' # Give wrong element selector for test
+        waitForSelectorTimeout: 5000
     - uses: actions/upload-artifact@v2
       with:
         path: screenshots

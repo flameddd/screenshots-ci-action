@@ -34,6 +34,7 @@ const WAITUNTIL_OPTIONS = [
 ];
 
 const DEFAULT_WAIT_FOR_SELECTOR = '';
+const DEFAULT_WAIT_FOR_SELECTOR_TIMEOUT = 30000; // 30 seconds
 
 let browser;
 
@@ -63,6 +64,21 @@ async function run() {
     let waitForSelector =
       core.getInput('waitForSelector') || DEFAULT_WAIT_FOR_SELECTOR;
 
+    // get waitForSelectorOptions
+    const waitForSelectorHidden = core.getBooleanInput('booleanInputName');
+    const waitForSelectorVisible = core.getBooleanInput(
+      'waitForSelectorVisible'
+    );
+    let waitForSelectorTimeout = core.getInput('waitForSelectorTimeout');
+    if (Number.isNaN(waitForSelectorTimeout)) {
+      waitForSelectorTimeout = DEFAULT_WAIT_FOR_SELECTOR_TIMEOUT;
+    }
+    const waitForSelectorOptions = {
+      visible: waitForSelectorVisible,
+      hidden: waitForSelectorHidden,
+      timeout: waitForSelectorTimeout,
+    };
+
     core.startGroup('Action config');
     console.log('Input args:', {
       url,
@@ -70,6 +86,9 @@ async function run() {
       devices: includedDevices,
       fullPage,
       type: screenshotType,
+      waitUntil,
+      waitForSelector,
+      waitForSelectorOptions,
     });
     core.endGroup(); // Action config
 
@@ -132,7 +151,10 @@ async function run() {
       // wait for page element when config has element selector
       if (waitForSelector) {
         try {
-          await desktopPage.waitForSelector(waitForSelector);
+          await desktopPage.waitForSelector(
+            waitForSelector,
+            waitForSelectorOptions
+          );
         } catch (error) {
           // waitForSelector timeout will throw error
           // Catch error to prevent flow break
@@ -180,7 +202,7 @@ async function run() {
         // wait for page element when config has element selector
         if (waitForSelector) {
           try {
-            await page.waitForSelector(waitForSelector);
+            await page.waitForSelector(waitForSelector, waitForSelectorOptions);
           } catch (error) {
             // waitForSelector timeout will throw error
             // Catch error to prevent flow break
