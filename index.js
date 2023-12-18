@@ -33,10 +33,15 @@ const WAITUNTIL_OPTIONS = [
   'networkidle2',
 ];
 
+const DEFAULT_WAIT_FOR_SELECTOR = '';
+const DEFAULT_WAIT_FOR_SELECTOR_TIMEOUT = 30000; // 30 seconds
+
 let browser;
 
 async function run() {
   try {
+    // 1. Get User config
+
     const url = core.getInput('url') || '';
     let includedDevices = core.getInput('devices') || '';
     const noDesktop = core.getInput('noDesktop') === 'true';
@@ -56,6 +61,29 @@ async function run() {
       waitUntil = DEFAULT_WAITUNTIL_OPTION;
     }
 
+    let waitForSelector =
+      core.getInput('waitForSelector') || DEFAULT_WAIT_FOR_SELECTOR;
+
+    // Get waitForSelectorOptions
+    // waitForSelectorHidden default false
+    const waitForSelectorHidden =
+      `${core.getInput('waitForSelectorHidden')}`.toLowerCase() === 'true';
+    // waitForSelectorVisible default false
+    const waitForSelectorVisible =
+      `${core.getInput('waitForSelectorVisible')}`.toLowerCase() === 'true';
+    let waitForSelectorTimeout = Number(
+      core.getInput('waitForSelectorTimeout')
+    );
+    if (!waitForSelectorTimeout) {
+      // Number will turn '' to 0, !0 === true, set timeout default value
+      waitForSelectorTimeout = DEFAULT_WAIT_FOR_SELECTOR_TIMEOUT;
+    }
+    const waitForSelectorOptions = {
+      visible: waitForSelectorVisible,
+      hidden: waitForSelectorHidden,
+      timeout: waitForSelectorTimeout,
+    };
+
     core.startGroup('Action config');
     console.log('Input args:', {
       url,
@@ -63,8 +91,13 @@ async function run() {
       devices: includedDevices,
       fullPage,
       type: screenshotType,
+      waitUntil,
+      waitForSelector,
+      waitForSelectorOptions,
     });
     core.endGroup(); // Action config
+
+    // 2. Verify User config
 
     if (!url) {
       console.log([`Task done`, `- "url" is empty.`].join('\n'));
@@ -97,6 +130,8 @@ async function run() {
       return;
     }
 
+    // 3. Launch puppeteer
+
     const launchOptions = !process.env.GITHUB_SHA
       ? {}
       : {
@@ -111,10 +146,27 @@ async function run() {
       await io.mkdirP(`${process.env.GITHUB_WORKSPACE}/screenshots/`);
     }
 
+    // 4. Take desktop screenshots
+
     if (!noDesktop) {
       core.startGroup('start process desktop');
       console.log('Processing desktop screenshot');
+
       await desktopPage.goto(url, { waitUntil });
+      // wait for page element when config has element selector
+      if (waitForSelector) {
+        try {
+          await desktopPage.waitForSelector(
+            waitForSelector,
+            waitForSelectorOptions
+          );
+        } catch (error) {
+          // waitForSelector timeout will throw error
+          // Catch error to prevent flow break
+          console.error(error);
+        }
+      }
+
       for (const { width, height } of DEFAULT_DESKTOP_VIEWPOINT_RATIO) {
         // filename with/without post fix commit hash name
         const desktopPath = noCommitHashFileName
@@ -131,6 +183,8 @@ async function run() {
       core.endGroup(); // end start process desktop
     }
 
+    // 5. Take mobile device screenshots
+
     if (includedDevices.length) {
       core.startGroup('start process mobile devices');
       console.log('Processing mobile devices screenshot');
@@ -139,9 +193,8 @@ async function run() {
           browser.newPage()
         ),
       ]);
-      for (const [index, page] of mobilePages.entries()) {
-        console.log('mobile for loop in ');
 
+      for (const [index, page] of mobilePages.entries()) {
         // filename with/without post fix commit hash name
         let mobilePath = `${PATH}${includedDevices[index].replace(/ /g, '_')}`;
         mobilePath = noCommitHashFileName
@@ -149,7 +202,19 @@ async function run() {
           : `${mobilePath}-${POST_FIX}.${screenshotType}`;
 
         await page.emulate(puppeteer.devices[`${includedDevices[index]}`]);
-        await page.goto(url, { waitUntil: 'networkidle0' });
+
+        await page.goto(url, { waitUntil });
+        // wait for page element when config has element selector
+        if (waitForSelector) {
+          try {
+            await page.waitForSelector(waitForSelector, waitForSelectorOptions);
+          } catch (error) {
+            // waitForSelector timeout will throw error
+            // Catch error to prevent flow break
+            console.error(error);
+          }
+        }
+
         await page.screenshot({
           path: mobilePath,
           fullPage,
@@ -161,6 +226,7 @@ async function run() {
 
     await browser.close();
 
+    // 6. Run screenshot post task
     await postProcesses();
   } catch (error) {
     console.error(error);

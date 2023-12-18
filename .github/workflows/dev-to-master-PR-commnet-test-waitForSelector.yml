@@ -1,0 +1,39 @@
+name: "Dev-to-Master-PR-commnet-test"
+on:
+  pull_request:
+    branches:    
+      - master
+    types: [ opened, synchronize, reopened ]
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: install puppeteer-headful
+      uses: mujo-code/puppeteer-headful@master
+      env:
+        CI: 'true'
+
+    - name: screenshots-ci-action-waitForSelector
+      uses: flameddd/screenshots-ci-action@dev
+      with:
+        url: https://flameddd.github.io/screenshots-ci-action-test-waitForSelector/
+        noDesktop: true
+        devices: iPhone 6
+        waitForSelector: '#waitForElement'
+        releaseId: 67887023
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: screenshots-ci-action-waitForSelector-wrongSelector
+      uses: flameddd/screenshots-ci-action@dev
+      with:
+        url: https://flameddd.github.io/screenshots-ci-action-test-waitForSelector/
+        noDesktop: true
+        devices: iPhone 6
+        waitForSelector: '.waitForElement'
+        waitForSelectorTimeout: 5000
+        releaseId: 67887023
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        

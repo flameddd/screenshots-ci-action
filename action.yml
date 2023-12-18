@@ -31,6 +31,19 @@ inputs:
     required: false
     description: "When to consider navigation succeeded, defaults to 'networkidle0'."
     default: 'networkidle0'
+  waitForSelector:
+    required: false
+    description: "Wait for the selector to appear in page. If at the moment of calling the method the selector already exists, the method will return immediately. If the selector doesn't appear after the timeout milliseconds of waiting, the function will throw."
+    default: ''
+  waitForSelectorHidden:
+    required: false
+    description: 'Wait for the selected element to not be found in the DOM or to be hidden, i.e. have display: none or visibility: hidden CSS properties.'
+  waitForSelectorVisible:
+    required: false
+    description: 'Wait for the selected element to be present in DOM and to be visible, i.e. to not have display: none or visibility: hidden CSS properties.'
+  waitForSelectorTimeout:
+    required: false
+    description: 'Maximum time to wait in milliseconds. Pass 0 to disable timeout.'
 runs:
   using: 'node16'
   main: "dist/index.js"

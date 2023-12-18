@@ -22,3 +22,4 @@ jobs:
         releaseId: 67887023
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        

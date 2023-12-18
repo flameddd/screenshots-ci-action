@@ -1,11 +1,16 @@
-name: "master-test"
+# waitForSelector example
+
+
+
+```yaml
+name: screenshots ci actions
 on:
   push:
     branches:
-      - master
+    - master
 
 jobs:
-  test:
+  screenshots:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -16,12 +21,13 @@ jobs:
     - name: screenshots-ci-action
       uses: flameddd/screenshots-ci-action@master
       with:
-        url: https://www.reddit.com/
-        devices: iPhone 6,iPhone 6 landscape,Nexus 7,Pad Pro,Galaxy S III landscape,iPad Pro landscape
-      env:
-        TELE_CHAT_ID: ${{ secrets.TELE_CHAT_ID }}
-        TELE_BOT_TOKEN: ${{ secrets.TELE_BOT_TOKEN }}
+        url: https://flameddd.github.io/screenshots-ci-action-test-waitForSelector/
+        noDesktop: true
+        devices: iPhone 6
+        waitForSelector: '#waitForElement'
+        waitForSelectorTimeout: 5000
     - uses: actions/upload-artifact@v2
       with:
-        name: Download-screenshots
         path: screenshots
+        name: Download-screenshots
+```
