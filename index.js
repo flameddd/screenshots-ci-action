@@ -71,8 +71,11 @@ async function run() {
     // waitForSelectorVisible default false
     const waitForSelectorVisible =
       `${core.getInput('waitForSelectorVisible')}`.toLowerCase() === 'true';
-    let waitForSelectorTimeout = core.getInput('waitForSelectorTimeout');
-    if (Number.isNaN(waitForSelectorTimeout)) {
+    let waitForSelectorTimeout = Number(
+      core.getInput('waitForSelectorTimeout')
+    );
+    if (!waitForSelectorTimeout) {
+      // Number will turn '' to 0, !0 === true, set timeout default value
       waitForSelectorTimeout = DEFAULT_WAIT_FOR_SELECTOR_TIMEOUT;
     }
     const waitForSelectorOptions = {
