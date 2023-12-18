@@ -35,4 +35,16 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         path: screenshots
-        name: Download-screenshots2
+        name: Download-screenshots-element-non-exist
+
+    - name: screenshots-ci-action-waitForSelector-body
+      uses: flameddd/screenshots-ci-action@dev
+      with:
+        url: https://flameddd.github.io/screenshots-ci-action-test-waitForSelector/
+        noDesktop: true
+        devices: iPhone 6
+        waitForSelector: 'body' # Give html tag to test element already exist
+    - uses: actions/upload-artifact@v2
+      with:
+        path: screenshots
+        name: Download-screenshots-element-exist
