@@ -20,7 +20,6 @@ jobs:
         noDesktop: true
         devices: iPhone 6
         waitForSelector: '#waitForElement'
-        waitForSelectorHidden: true 
     - uses: actions/upload-artifact@v2
       with:
         path: screenshots
