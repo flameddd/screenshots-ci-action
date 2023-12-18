@@ -13,7 +13,7 @@ jobs:
       uses: mujo-code/puppeteer-headful@master
       env:
         CI: 'true'
-    - name: screenshots-ci-action
+    - name: screenshots-ci-action-waitForSelector
       uses: flameddd/screenshots-ci-action@dev
       with:
         url: https://flameddd.github.io/screenshots-ci-action-test-waitForSelector/
@@ -24,3 +24,15 @@ jobs:
       with:
         path: screenshots
         name: Download-screenshots
+
+    - name: screenshots-ci-action-waitForSelector-wrongSelector
+      uses: flameddd/screenshots-ci-action@dev
+      with:
+        url: https://flameddd.github.io/screenshots-ci-action-test-waitForSelector/
+        noDesktop: true
+        devices: iPhone 6
+        waitForSelector: '.waitForElement' # Give wrong element selector for test
+    - uses: actions/upload-artifact@v2
+      with:
+        path: screenshots
+        name: Download-screenshots2
