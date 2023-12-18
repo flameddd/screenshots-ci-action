@@ -21,7 +21,7 @@ jobs:
       env:
         TELE_CHAT_ID: ${{ secrets.TELE_CHAT_ID }}
         TELE_BOT_TOKEN: ${{ secrets.TELE_BOT_TOKEN }}
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v2
       with:
         name: Download-screenshots
         path: screenshots
