@@ -15,7 +15,7 @@ jobs:
   screenshots:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v7
     - name: install puppeteer-headful
       uses: mujo-code/puppeteer-headful@master
       env:
@@ -24,7 +24,7 @@ jobs:
       uses: flameddd/screenshots-ci-action@master
       with:
         url: ${{ github.event.inputs.url }}
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v7
       with:
         path: screenshots
         name: Download-screenshots
@@ -57,7 +57,7 @@ jobs:
   screenshots:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v7
     - name: install puppeteer-headful
       uses: mujo-code/puppeteer-headful@master
       env:
@@ -67,7 +67,7 @@ jobs:
       with:
         url: ${{ github.event.inputs.url }}
         devices: ${{ github.event.inputs.devices }}
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v7
       with:
         path: screenshots
         name: Download-screenshots
@@ -93,7 +93,7 @@ jobs:
   screenshots:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v7
     - name: install puppeteer-headful
       uses: mujo-code/puppeteer-headful@master
       env:
@@ -102,7 +102,7 @@ jobs:
       uses: flameddd/screenshots-ci-action@master
       with:
         url: ${{ github.event.inputs.url1 }}
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v7
       with:
         path: screenshots
         name: Download-url1-screenshots
@@ -114,7 +114,7 @@ jobs:
         url: ${{ github.event.inputs.url2 }}
         devices: iPhone 6,iPhone 6 landscape
         noDesktop: true
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v7
       with:
         path: screenshots
         name: Download-url2-screenshots

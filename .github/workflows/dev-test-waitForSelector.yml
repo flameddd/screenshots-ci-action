@@ -8,7 +8,7 @@ jobs:
   dev-test-waitForSelector:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v7
     - name: install puppeteer-headful
       uses: mujo-code/puppeteer-headful@master
       env:
@@ -20,7 +20,7 @@ jobs:
         noDesktop: true
         devices: iPhone 6
         waitForSelector: '#waitForElement'
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v7
       with:
         path: screenshots
         name: Download-screenshots
@@ -33,7 +33,7 @@ jobs:
         devices: iPhone 6
         waitForSelector: '.waitForElement' # Give wrong element selector for test
         waitForSelectorTimeout: 5000
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v7
       with:
         path: screenshots
         name: Download-screenshots-element-non-exist
@@ -45,7 +45,7 @@ jobs:
         noDesktop: true
         devices: iPhone 6
         waitForSelector: 'body' # Give html tag to test element already exist
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v7
       with:
         path: screenshots
         name: Download-screenshots-element-exist
