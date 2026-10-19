@@ -67,7 +67,7 @@ jobs:
   screenshots:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v7
     - name: install puppeteer-headful
       uses: mujo-code/puppeteer-headful@master
       env:
@@ -80,7 +80,7 @@ jobs:
         releaseId: 63601424
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v7
       with:
         path: screenshots
         name: Download-screenshots
