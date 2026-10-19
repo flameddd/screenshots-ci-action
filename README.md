@@ -64,7 +64,7 @@ jobs:
       uses: flameddd/screenshots-ci-action@master
       with:
         url: https://github.com
-        devices: iPhone 6,iPhone 6 landscape,Nexus 7,Pad Pro,Galaxy S III landscape,iPad Pro landscape
+        devices: iPhone 6,iPhone 6 landscape,Nexus 7,iPad Pro,Galaxy S III landscape,iPad Pro landscape
     - uses: actions/upload-artifact@v7 # Uplaod screenshots to Actions Artifacts via actions/upload-artifact@v7
       with:
         path: screenshots
