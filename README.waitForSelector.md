@@ -13,7 +13,7 @@ jobs:
   screenshots:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v7
     - name: install puppeteer-headful
       uses: mujo-code/puppeteer-headful@master
       env:
@@ -26,7 +26,7 @@ jobs:
         devices: iPhone 6
         waitForSelector: '#waitForElement'
         waitForSelectorTimeout: 5000
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v7
       with:
         path: screenshots
         name: Download-screenshots

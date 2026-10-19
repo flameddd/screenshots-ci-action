@@ -40,7 +40,7 @@ jobs:
   screenshots:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v7
     - name: install puppeteer-headful
       uses: mujo-code/puppeteer-headful@master
       env:

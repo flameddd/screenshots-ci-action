@@ -45,5 +45,5 @@ inputs:
     required: false
     description: 'Maximum time to wait in milliseconds. Pass 0 to disable timeout.'
 runs:
-  using: 'node16'
+  using: 'node24'
   main: "dist/index.js"

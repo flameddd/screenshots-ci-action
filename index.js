@@ -1,9 +1,9 @@
-const core = require('@actions/core');
-const io = require('@actions/io');
-const github = require('@actions/github');
-const puppeteer = require('puppeteer');
-const fs = require('fs').promises;
-const telegram = require('./telegram.js');
+import * as core from '@actions/core';
+import * as io from '@actions/io';
+import * as github from '@actions/github';
+import puppeteer, { KnownDevices } from 'puppeteer';
+import fs from 'node:fs/promises';
+import telegram from './telegram.js';
 
 const DEFAULT_DESKTOP_VIEWPOINT_RATIO = [
   { width: 540, height: 405 },
@@ -16,7 +16,7 @@ const DEFAULT_DESKTOP_VIEWPOINT_RATIO = [
 ];
 
 const DEFAULT_TYPE = 'jpeg';
-const deviceNames = Object.keys(puppeteer.devices);
+const deviceNames = Object.keys(KnownDevices);
 const PATH = process.env.GITHUB_WORKSPACE
   ? `${process.env.GITHUB_WORKSPACE}/screenshots/`
   : `screenshots/`;
@@ -201,7 +201,7 @@ async function run() {
           ? `${mobilePath}.${screenshotType}`
           : `${mobilePath}-${POST_FIX}.${screenshotType}`;
 
-        await page.emulate(puppeteer.devices[`${includedDevices[index]}`]);
+        await page.emulate(KnownDevices[includedDevices[index]]);
 
         await page.goto(url, { waitUntil });
         // wait for page element when config has element selector
