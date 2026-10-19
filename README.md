@@ -55,7 +55,7 @@ jobs:
   screenshots:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v6
     - name: install puppeteer-headful
       uses: mujo-code/puppeteer-headful@master # Required for headful puppeteer
       env:
@@ -65,7 +65,7 @@ jobs:
       with:
         url: https://github.com
         devices: iPhone 6,iPhone 6 landscape,Nexus 7,Pad Pro,Galaxy S III landscape,iPad Pro landscape
-    - uses: actions/upload-artifact@v2 # Uplaod screenshots to Actions Artifacts via actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v6 # Uplaod screenshots to Actions Artifacts via actions/upload-artifact@v6
       with:
         path: screenshots
         name: Download-screenshots
@@ -84,7 +84,7 @@ jobs:
   screenshots:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v6
     - name: install puppeteer-headful
       uses: mujo-code/puppeteer-headful@master
       env:
@@ -95,7 +95,7 @@ jobs:
         url: https://github.com
         devices: iPhone 6,iPhone 6 landscape
         noDesktop: true
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v6
       with:
         path: screenshots
         name: Download-screenshots
@@ -116,7 +116,7 @@ jobs:
   screenshots:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v6
     - name: install puppeteer-headful
       uses: mujo-code/puppeteer-headful@master
       env:
@@ -125,7 +125,7 @@ jobs:
       uses: flameddd/screenshots-ci-action@master
       with:
         url: https://www.facebook.com/
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v6
       with:
         path: screenshots
         name: Download-desktop-screenshots # Put URL1 screenshots into Download-desktop-screenshots
@@ -137,7 +137,7 @@ jobs:
         url: https://m.facebook.com/
         devices: iPhone 6,iPhone 6 landscape
         noDesktop: true
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v6
       with:
         path: screenshots
         name: Download-mobile-screenshots # Put URL2 screenshots into Download-desktop-screenshots
