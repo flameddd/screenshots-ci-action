@@ -1,6 +1,7 @@
-export const id = 897;
-export const ids = [897];
-export const modules = {
+"use strict";
+exports.id = 897;
+exports.ids = [897];
+exports.modules = {
 
 /***/ 2897:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
@@ -1740,3 +1741,4 @@ function unpackTar(directoryPath, options = {}) {
 /***/ })
 
 };
+;

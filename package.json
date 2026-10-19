@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint index.js telegram.js --fix",
-    "build": "npm run lint && ncc build index.js -o dist -m",
+    "build": "npm run lint && rm -rf dist && ncc build index.cjs -o dist -m",
     "prepare": "husky"
   },
   "keywords": [
