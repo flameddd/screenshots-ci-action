@@ -132,10 +132,14 @@ async function run() {
 
     // 3. Launch puppeteer
 
+    const chromePath =
+      process.env.CHROME_BIN ||
+      (await io.which('google-chrome-stable', false)) ||
+      (await io.which('google-chrome', false));
     const launchOptions = !process.env.GITHUB_SHA
       ? {}
       : {
-          executablePath: 'google-chrome-stable',
+          ...(chromePath ? { executablePath: chromePath } : {}),
           args: ['--no-sandbox'],
         };
     browser = await puppeteer.launch(launchOptions);
